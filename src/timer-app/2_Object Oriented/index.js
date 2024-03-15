@@ -1,7 +1,7 @@
-class Timmer {
+class Timer {
   constructor() {
     this.name = 'undefined';
-    this.timmer = undefined;
+    this.timer = undefined;
     this.h = 0;
     this.m = 0;
     this.s = 10;
@@ -42,12 +42,12 @@ class Timmer {
   }
 
   start() {
-    if (this.timmer) {
+    if (this.timer) {
       console.log(`[${this.name}] started`);
       return;
     }
     console.log(`[${this.name}] starts`);
-    this.timmer = setInterval(() => {
+    this.timer = setInterval(() => {
       this._on_update();
     }, 1000);
     this.show();
@@ -55,8 +55,8 @@ class Timmer {
 
   stop() {
     console.log(`[${this.name}] stopped`);
-    clearInterval(this.timmer);
-    this.timmer = undefined;
+    clearInterval(this.timer);
+    this.timer = undefined;
 
     // smiliar to update, check for the stop callback function
     if (this._on_stop_callback && typeof this._on_stop_callback === 'function') {
@@ -66,8 +66,8 @@ class Timmer {
 
   pause() {
     console.log(`[${this.name}] paused`);
-    clearInterval(this.timmer);
-    this.timmer = undefined;
+    clearInterval(this.timer);
+    this.timer = undefined;
   }
 
   show() {
@@ -83,13 +83,13 @@ class Timmer {
   }
 }
 
-const t1 = new Timmer();
+const t1 = new Timer();
 t1.name = 'Timer 1';
 
-const t2 = new Timmer();
+const t2 = new Timer();
 t2.name = 'Timer 2';
 
-const list_timmer = [t1, t2];
+const list_timer = [t1, t2];
 const list_sound = ['meow', 'woof'];
 
 function play_audio(sound) {
@@ -118,7 +118,7 @@ function btn_start_onclick(i) {
   // set the state of input fields and buttons
   dom_update_inputs(i, "COUNTING");
   // take the corresponding timer from the timer array
-  const tmr = list_timmer[i - 1];
+  const tmr = list_timer[i - 1];
   // assign the input value to timer
   tmr.h = Number(ipt_h.value);
   tmr.m = Number(ipt_m.value);
@@ -132,7 +132,7 @@ function btn_start_onclick(i) {
     dom_update_inputs(i, "STOPPED");
   }
   tmr._on_update_callback = () => {
-    dom_update_timmer(i);
+    dom_update_timer(i);
   }
   // start the timer
   tmr.start();
@@ -142,7 +142,7 @@ function btn_pause_onclick(i) {
   dom_update_inputs(i, "PAUSED");
 
   // take the corresponding timer from the timer array
-  const tmr = list_timmer[i - 1];
+  const tmr = list_timer[i - 1];
 
   // pause the timer
   tmr.pause();
@@ -152,7 +152,7 @@ function btn_stop_onclick(i) {
   dom_update_inputs(i, "STOPED");
 
   // take the corresponding timer from the timer array
-  const tmr = list_timmer[i - 1];
+  const tmr = list_timer[i - 1];
 
   // stop the timer
   tmr.stop();
@@ -192,9 +192,9 @@ function dom_update_inputs(i, status) {
   }
 }
 
-function dom_update_timmer(i) {
+function dom_update_timer(i) {
   // take the corresponding timer from the timer array
-  const tmr = list_timmer[i - 1];
+  const tmr = list_timer[i - 1];
 
   // synchronize the time to the page
   document.getElementById(`ipt-${i}-h`).value = formatDigits(tmr.h);
