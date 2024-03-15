@@ -20,6 +20,7 @@ Here are some supplemntary docs linked within the project article for future ref
 - [Classes > constructor method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor)
 - [new operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new)
 - [template literal](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+- [Classes > extends keyword](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends)
 
 ### Demo Code
 
