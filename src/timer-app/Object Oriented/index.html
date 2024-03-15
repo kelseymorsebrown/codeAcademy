@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Timer</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <script src="index.js"></script>
+  <div class="container">
+    <div class="timmer">
+      <h1>Timer 1</h1>
+      <div>
+        <input id="ipt-1-h" class="ipt" type="number" placeholder="hour" value="0" />
+        <span>:</span>
+        <input id="ipt-1-m" class="ipt" type="number" placeholder="minute" value="0" />
+        <span>:</span>
+        <input id="ipt-1-s" class="ipt" type="number" placeholder="second" value="5" />
+      </div>
+      <div>
+        <input id="tmr-1-btn-start" class=" btn btn-start" type="button" value="Start" onclick="btn_start_onclick(1)" />
+        <input id="tmr-1-btn-pause" disabled="true" class="btn btn-pause" type="button" value="Pause"
+          onclick="btn_pause_onclick(1)" />
+        <input id="tmr-1-btn-stop" disabled="true" class="btn btn-stop" type="button" value="Stop"
+          onclick="btn_stop_onclick(1)" />
+      </div>
+    </div>
+
+    <div class="timmer">
+      <h1>Timer 2</h1>
+      <div>
+        <input id="ipt-2-h" class="ipt" type="number" placeholder="hour" value="0" />
+        <span>:</span>
+        <input id="ipt-2-m" class="ipt" type="number" placeholder="minute" value="1" />
+        <span>:</span>
+        <input id="ipt-2-s" class="ipt" type="number" placeholder="second" value="5" />
+      </div>
+      <div>
+        <input id="tmr-2-btn-start" class="btn" type="button" value="Start" onclick="btn_start_onclick(2)" />
+        <input id="tmr-2-btn-pause" disabled="true" class="btn btn-pause" type="button" value="Pause"
+          onclick="btn_pause_onclick(2)" />
+        <input id="tmr-2-btn-stop" disabled="true" class="btn btn-stop" type="button" value="Stop"
+          onclick="btn_stop_onclick(2)" />
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
