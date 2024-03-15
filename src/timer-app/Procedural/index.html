@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Timer</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <script src="index.js"></script>
+  <div class="container">
+    <h1>Timer</h1>
+    <div class="ipt">
+      <input id="inputh" type="number" placeholder="hour">
+      <input id="inputm" type="number" placeholder="minute">
+      <input id="inputs" type="number" placeholder="second">
+    </div>
+    <div class="btn">
+      <button id="btn-start" onclick="start_counting()">Start</button>
+      <button id="btn-pause" onclick="pause_counting()">Pause</button>
+      <button id="btn-stop" onclick="end_counting()">Stop</button>
+    </div>
+    <p id="currentTime">current time: </p>
+  </div>
+</body>
+
+</html>
