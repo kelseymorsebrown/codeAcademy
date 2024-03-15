@@ -2,12 +2,22 @@
 document.getElementById("btn-pause").disabled = true;
 document.getElementById("btn-stop").disabled = true;
 
+/*
+  Using let instead of var broke the app when running index.html in my browser.
+  However, it worked just fine in the project codePen.
+  See README for a link to the codePen and some additional troubleshooting info.
+*/
 // define global variables
 var timer = null; // store the returned value of timer
 var h = 0; // store the value of hour
 var m = 0; // store the value of minute
 var s = 0; // store the value of second
 
+/*
+  I cannot get this code to do anything when running index.html in my browser.
+  However, it works just fine in the project codePen.
+  See README for a link to the codePen and some additional troubleshooting info.
+*/
 // restrict hours input to 24
 var inputh = document.getElementById("inputh");
 inputh.addEventListener("input", function () {
