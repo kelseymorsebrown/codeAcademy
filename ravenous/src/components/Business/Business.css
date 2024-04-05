@@ -1,0 +1,61 @@
+.BusinessContainer {
+  display: flex;
+  flex-direction: column;
+  width: 16.66rem;
+  margin: 0 0.5rem 2.3rem 0.5rem;
+}
+
+.ImageContainer {
+  height: 16.66rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: #000;
+}
+
+.ImageContainer img {
+  object-fit: scale-down;
+}
+
+.BusinessContainer h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+p {
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1rem;
+  margin: 0;
+}
+
+.BusinessInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.BusinessInfo p {
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1rem;
+  margin: 0;
+}
+
+.BusinessAddress {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.BusinessStats {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+}

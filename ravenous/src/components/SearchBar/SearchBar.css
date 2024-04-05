@@ -1,0 +1,75 @@
+.SearchBar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-image: url('./background_search_desktop.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 25rem;
+}
+
+.SearchSortingOptions ul {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.22rem;
+  color: white;
+}
+
+.SearchSortingOptions li {
+  cursor: pointer;
+  width: 4.33rem;
+  border-bottom: 1px solid #fff;
+  padding: 0 2.58rem 0.33rem 2.58rem;
+  line-height: 1.13;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.83rem;
+  transition: color 0.25s;
+  list-style: none;
+}
+
+.SearchSortingOptions li:hover {
+  color: #d4cfcf;
+}
+
+.SearchSortingOptions li.active,
+.SearchSortingOptions li.active:hover {
+  border-bottom: 1px solid #f0c36c;
+  color: #f0c36c;
+}
+
+.SearchInputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.88rem;
+  text-align: center;
+}
+
+input[type='submit'] {
+  border-radius: 4px;
+  padding: 0.72rem 1.7rem;
+  background-color: #cca353;
+  color: #ffffff;
+  font-weight: 600;
+  transition: background-color 0.5s;
+  margin-top: 2rem;
+}
+input[type='submit']:hover {
+  cursor: pointer;
+  background-color: #a7874b;
+}
+
+input[type='search'] {
+  width: 21rem;
+  padding: 0.66rem 1rem;
+  margin-right: 2.22rem;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  font-size: 0.77rem;
+  font-weight: 500;
+}
+
+input[type='search']:last-child {
+  margin-right: 0;
+}
