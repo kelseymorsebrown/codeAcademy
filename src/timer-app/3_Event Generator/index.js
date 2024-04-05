@@ -38,7 +38,6 @@ class Timer extends EventEmitter {
     this.s = 10;
   }
 
-
   _on_update() {
     if (this.s === 0 && this.m === 0 && this.h === 0) {
       this.stop();

@@ -1,7 +1,9 @@
+"use strict";
 // initialize button state
 document.getElementById("btn-pause").disabled = true;
 document.getElementById("btn-stop").disabled = true;
 
+console.log('anybody home?')
 /*
   Using let instead of var broke the app when running index.html in my browser.
   However, it worked just fine in the project codePen.
@@ -9,7 +11,7 @@ document.getElementById("btn-stop").disabled = true;
 */
 // define global variables
 var timer = null; // store the returned value of timer
-var h = 0; // store the value of hour
+let h = 0; // store the value of hour
 var m = 0; // store the value of minute
 var s = 0; // store the value of second
 
