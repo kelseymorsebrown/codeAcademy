@@ -1,4 +1,4 @@
-import domFunctions from '../modules/dom-functions.js';
+import domFunctions from './modules/dom-functions.js';
 const { toggleHiddenElement, changeToFunkyColor } = domFunctions;
 
 const buttonElement = document.getElementById('secret-button');
