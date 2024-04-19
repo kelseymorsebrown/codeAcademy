@@ -23,7 +23,7 @@ But this code will not work:
 
 ```jsx
 const paragraphs = (
-  <p>I am a paragraph.</p> 
+  <p>I am a paragraph.</p>
   <p>I, too, am a paragraph.</p>
 );
 ```
@@ -39,14 +39,15 @@ You have to use the `/` in self closing tags in JSX. Ex: You must use `<br/>` in
 To have JavaScript inside your html inside a JSX file, you need to enclose the JavaScript in curly braces.
 
 ```jsx
-const sideLength = "200px";
+const sideLength = '200px';
 
 const panda = (
-  <img 
-    src="images/panda.jpg" 
-    alt="panda" 
-    height={sideLength} 
-    width={sideLength} />
+  <img
+    src="images/panda.jpg"
+    alt="panda"
+    height={sideLength}
+    width={sideLength}
+  />
 );
 ```
 
@@ -70,22 +71,18 @@ Option 1: write an if statement and _not_ inject it into JSX.
 
 ```jsx
 if (coinToss() === 'heads') {
-  img = <img src={pics.kitty} />
+  img = <img src={pics.kitty} />;
 } else {
-  img = <img src={pics.doggy} />
+  img = <img src={pics.doggy} />;
 }
 
-root.render(img)
+root.render(img);
 ```
 
 Option 2: Ternary operator
 
 ```jsx
-const headline = (
-  <h1>
-    { age >= drinkingAge ? 'Buy Drink' : 'Do Teen Stuff' }
-  </h1>
-);
+const headline = <h1>{age >= drinkingAge ? 'Buy Drink' : 'Do Teen Stuff'}</h1>;
 ```
 
 Option 3: && operator
@@ -98,10 +95,10 @@ If the first expression is false, however, then the JSX to the right of the && w
 const tasty = (
   <ul>
     <li>Applesauce</li>
-    { !baby && <li>Pizza</li> }
-    { age > 15 && <li>Brussels Sprouts</li> }
-    { age > 20 && <li>Oysters</li> }
-    { age > 25 && <li>Grappa</li> }
+    {!baby && <li>Pizza</li>}
+    {age > 15 && <li>Brussels Sprouts</li>}
+    {age > 20 && <li>Oysters</li>}
+    {age > 25 && <li>Grappa</li>}
   </ul>
 );
 ```
@@ -114,15 +111,15 @@ In addition to the AND `&&` operator, we can use the OR `||` operator. Given a l
 
 If you want to create a list of JSX elements, then using `.map()` is often the most efficient way.
 
-Sometimes your list will need to include something called `keys`. A `key` is a JSX attribute. 
+Sometimes your list will need to include something called `keys`. A `key` is a JSX attribute.
 
 ```jsx
 const people = ['Rowe', 'Prevost', 'Gare'];
 
-const peopleList = people.map((person,i) =>
+const peopleList = people.map((person, i) => (
   <li key={'person_' + i}>{person}</li>
-);
-root.render(<ul>{peopleList}</ul>)
+));
+root.render(<ul>{peopleList}</ul>);
 ```
 
 The attribute's _name_ is `key` and it's _value_ should be something unique, similar to an `id` attribute. They don't do anything visible - React uses them internally to keep track of lists. If you don't use keys when you're supposed to, React might accidentally scramble your list items in the wrong order.
@@ -175,26 +172,3 @@ The first line:
 In the second line we use `createRoot()` from the `react-dom/client` library, which creates a React root from `container` and stores it in `root`. `root` can be used to render a JSX expression. This is the “where to place the content” part of React rendering.
 
 The last line uses the `render()` method of `root` to render the content passed in as an argument. Here we pass an `<h1>` element, which displays `Hello world`. This is the “what content to render” part of React rendering.
-
-## The Virtual DOM
-
-React root's `render()` method _only updates DOM elements that have changed._ If you render the exact same thing twice in a row, the second render will do nothing.
-
-This is accomplished using React's [virtual DOM](https://www.youtube.com/watch?v=jwRAdGLUarw).
-
-For every [DOM object](http://eloquentjavascript.net/13_dom.html), there's a corresponding "virtual DOM object" which is a _representation_ of a DOM object, like a lightweight copy. It's got the same properties as a real DOM object, but unlike the real thing it can't directly change what's on teh screen.
-
-Think of manipulating the virtual DOM as editing a blueprint, as opposed to moving rooms in an actual house.
-
-Here’s what happens when you try to render a JSX element and update the DOM in React:
-
-1. The entire virtual DOM gets updated.
-1. The virtual DOM gets compared to what it looked like before you updated it. React figures out which objects have changed.
-1. The changed objects, and _the changed objects only_, get updated on the real DOM.
-1. Changes on the real DOM cause the screen to change.
-
-In our example from earlier, React would be smart enough to rebuild your one checked-off list-item and leave the rest of your list alone.
-
-## Resources
-
-- [React: Common components](https://react.dev/reference/react-dom/components/common#)
