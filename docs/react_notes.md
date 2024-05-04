@@ -19,7 +19,48 @@ Here’s what happens when you try to render a JSX element and update the DOM in
 
 In our example from earlier, React would be smart enough to rebuild your one checked-off list-item and leave the rest of your list alone.
 
-## Giving Default Values to Component props
+## Props
+
+[Passing Props to a Component](https://react.dev/learn/passing-props-to-a-component#)
+
+```javascript
+import React from 'react';
+
+class ParentComponent extends React.Component {
+  render() {
+    return <ChildComponent prop1="Mike" prop2="piza">
+  }
+}
+
+function ChildComponent(props) {
+  return <h2>This is prop1: {props.prop1}. This is prop2: {props.prop2}.</h2>
+}
+```
+
+Every component has something called props, which is an object that holds information about that component. Use the expression `this.props` to see a component’s props object.
+
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class Greeting extends React.Component {
+  render() {
+    return <h1>Hi there, {this.props.firstName}!</h1>;
+  }
+}
+
+ReactDOM.render(<Greeting firstName="Rybu" />, document.getElementById('app'));
+```
+
+You can pass information to a react component by giving that component an attribute. If you want to pass information that isn’t a string, then wrap that information in curly braces.
+
+```javascript
+<MyComponent foo="bar" />
+<Greeting myInfo={['top', 'secret', 'lol']} />
+<Greeting name="Frarthur" town="Flundon" age={2} haunted={false} />
+```
+
+### Giving Default Values to Component props
 
 There are three ways to specify a default value for a react component prop.
 
