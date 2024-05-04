@@ -1,6 +1,6 @@
 # Ravenous
 
-This is a practice project for Code Academy. 
+This is a practice project for Code Academy.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
