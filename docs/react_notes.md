@@ -81,7 +81,7 @@ Example.defaultProps = {
 };
 ```
 
-#### 2. Specify the defutalt value directly in the funciton definition
+#### 2. Specify the default value directly in the funciton definition
 
 ```javascript
 function Example({ text = 'This is default text' }) {
@@ -119,15 +119,16 @@ Two main rules to keep in mind when using Hooks:
 - Only call Hooks at the top level - not inside of loops, conditions, or nested functions.
 - Only call Hooks from React functions or custom Hooks
 
-### State Hook > Update Function Component State
+### State Hook
 
-- We employ the State Hook using `const [currentState, stateSetter] = useState( initialState );`. The `currentState` references the current value of the state and `initialState` initializes the value of the state for the component’s first render.
+- We employ the State Hook using `const [currentState, stateSetter] = useState( initialState );`.
+  - `currentState`: the current value of the state
+  - `stateSetter`: a function that we can use to update the value of this state
+  - `initialState`: initializes the value of the state for the component’s first render
 - State setters can be called in event handlers.
 - We can define simple event handlers inline in our JSX and complex event handlers outside of our JSX.
-- We use a state setter callback function when our next value depends on our previous value.
-- We use arrays and objects to organize and manage related data that tend to change together.
-- Use the spread syntax on collections of dynamic data to copy the previous state into the next state like so: `setArrayState((prev) => [ ...prev ])` and `setObjectState((prev) => ({ ...prev }))`.
-- It’s best practice to have multiple, simpler states instead of having one complex state object.
+
+#### Update Function Component State
 
 When you call `useState()` returns an array with two values:
 
@@ -137,6 +138,8 @@ When you call `useState()` returns an array with two values:
 You can assign them to local variables using array destructuring. It’s a convention to name the setter variable using the current state variable with “set” prepended. Ex: `email` and `setEmail()`
 
 Calling the _state setter_ signals to React that the component needs to re-render, so the whole function defining the component is called again. The magic of `useState()` is that it allows React to keep track of the current value of the state from one render to the next.
+
+#### Initializing State
 
 Passing a value as an argument to the `useState()` function call affects the component in three ways:
 
@@ -229,6 +232,10 @@ export default function Counter() {
 
 #### Arrays and Objects in State
 
+- We use a state setter callback function when our next value depends on our previous value.
+- We use arrays and objects to organize and manage related data that tend to change together.
+- Use the spread syntax on collections of dynamic data to copy the previous state into the next state like so: `setArrayState((prev) => [ ...prev ])` and `setObjectState((prev) => ({ ...prev }))`.
+
 Arrays are the best data model for managing and rendering JSX lists.
 
 - _static data_ is data that does not change. It's best practice to define static data models outside of function components since htey don't need to be recreated each time our component re-renders.
@@ -246,6 +253,8 @@ setFormState((prev) => ({ ...prev, key: value }));
 ```
 
 #### Seperate Hooks for Seperate States
+
+It’s best practice to have multiple, simpler states instead of having one complex state object.
 
 - Create differnt state variables for data that can change seperately
 - Managing dynamic data is easier when we keep our data models as simple as possible
@@ -306,9 +315,13 @@ function MusicalRefactored() {
 </tr>
 </table>
 
-## Effect Hook
+### Effect Hook
 
-The `useEffect()` hook takes in a function and an array. The function will be executed after the current render process finishes and only if the elements inside the array has changed from the previous render. The Event Hook can be used to run side effects (call to an external API, update another state, etc.) or attach event listeners.
+The `useEffect()` hook takes in a function and an array.
+
+The Effect Hook is all about scheduling when our effect’s code gets executed.
+
+The function will be executed after the current render process finishes and only if the elements inside the array has changed from the previous render. The Event Hook can be used to run side effects (call to an external API, update another state, etc.) or attach event listeners.
 
 ```javascript
 useEffect(
@@ -322,6 +335,14 @@ useEffect(
   [] // Array of dependencies
 );
 ```
+
+Terminology:
+
+- _effect_: the function that we pass as the first argument of `useEffect()`. By default, the Effect Hook calls this effect after each render.
+- _dependency array_: the array of varaibles the effect depends on we can optionally pass as the second argument of `useEffect()`. Prevents repeatedly calling the effect when it is not needed.
+- _cleanup function_: function you can optionally have be returned by the effect. Used if the effect does anything that needs to be cleaned up to prevent memory leaks. If the effect returns a cleanup function, then the Effect Hook will call this cleanup function before calling the effect again as well as when the component is being unmounted.
+
+#### Function Component Effects
 
 The Effect Hook tells our component to do something every time it’s rendered (or re-rendered). For example:
 
@@ -337,6 +358,8 @@ Three key moments when the Effect Hook can be utilized:
 1. When the component is removed, or unmounted, from the DOM.
 
 `useEffect()` has no return value - used only to call the function passed into it as an argument.
+
+#### Clean Up Effects
 
 Some effects require **cleanup**. Ex: when you add event listeners to some element in the DOM, it's important to remove them when you're odne with them to avoid memory leaks.
 
@@ -363,6 +386,8 @@ export default function Counter() {
   return <h1>Document Clicks: {clickCount}</h1>;
 }
 ```
+
+#### Control When Effects Are Called
 
 The Effect Hook has a second argument called the **dependency array** that is used to tell the `useEffect()` method when to call the effect and when to skip it. When you utilie the dependency array, the effect is always called after the first render but only called again if something in the dependency array has changed values between renders.
 
@@ -391,6 +416,69 @@ useEffect(() => {
   };
 }, []);
 ```
+
+The dependency array can be configured to control when the effect is called in the following ways:
+
+| Dependency Array | Effect called after first render & …           |
+| ---------------- | ---------------------------------------------- |
+| `undefined`      | every re-render                                |
+| Empty array      | not called after re-renders                    |
+| Non-empty array  | when any value in the dependency array chances |
+
+#### Seperate Hooks for Seperate Effects
+
+It is best practice to seperate concerns by managing different data with different hooks.
+
+Compare the complexity of these two code blocks:
+
+<table>
+<tr>
+<th style="width:50%">Data bundled up into a single object</th>
+<th style="width:50%">Seperated concerns</th>
+</tr>
+<tr>
+<td>
+
+```javascript
+// Handle both position and menuItems with one useEffect hook.
+const [data, setData] = useState({ position: { x: 0, y: 0 } });
+useEffect(() => {
+  get('/menu').then((response) => {
+    setData((prev) => ({ ...prev, menuItems: response.data }));
+  });
+  const handleMove = (event) =>
+    setData((prev) => ({
+      ...prev,
+      position: { x: event.clientX, y: event.clientY },
+    }));
+  window.addEventListener('mousemove', handleMove);
+  return () => window.removeEventListener('mousemove', handleMove);
+}, []);
+```
+
+</td>
+<td>
+
+```javascript
+// Handle menuItems with one useEffect hook.
+const [menuItems, setMenuItems] = useState(null);
+useEffect(() => {
+  get('/menu').then((response) => setMenuItems(response.data));
+}, []);
+
+// Handle position with a separate useEffect hook.
+const [position, setPosition] = useState({ x: 0, y: 0 });
+useEffect(() => {
+  const handleMove = (event) =>
+    setPosition({ x: event.clientX, y: event.clientY });
+  window.addEventListener('mousemove', handleMove);
+  return () => window.removeEventListener('mousemove', handleMove);
+}, []);
+```
+
+</td>
+</tr>
+</table>
 
 ## Resources
 
