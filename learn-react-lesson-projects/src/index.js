@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // To change which project renders, update the directory in the following imports
-import './CodeyOverflowForum/styles.css';
-import App from './CodeyOverflowForum/App';
+import './authorization-form/styles.css';
+import App from './authorization-form/App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

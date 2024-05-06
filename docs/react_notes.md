@@ -69,7 +69,7 @@ In all three of the below examples:
 - If `<Example />` doesn't get passed any text, then it will display "This is default text".
 - If `<Example />` does get passed some text, then it will display that passed-in text.
 
-### 1. Adding a `defaultProps` static property to the component
+#### 1. Adding a `defaultProps` static property to the component
 
 ```javascript
 function Example(props) {
@@ -81,7 +81,7 @@ Example.defaultProps = {
 };
 ```
 
-### 2. Specify the defutalt value directly in the funciton definition
+#### 2. Specify the defutalt value directly in the funciton definition
 
 ```javascript
 function Example({ text = 'This is default text' }) {
@@ -89,7 +89,7 @@ function Example({ text = 'This is default text' }) {
 }
 ```
 
-### 3. Set the default value in the function body
+#### 3. Set the default value in the function body
 
 ```javascript
 function Example(props) {
@@ -183,11 +183,6 @@ export default function EmailTextInput() {
 
 The following three code blocks are all equivalent, but it's common in React code to use the simplified version.
 
-<table>
-<tr>
-
-<td>
-
 ```javascript
 const handleChange = (event) => {
   const newEmail = event.target.value;
@@ -195,26 +190,13 @@ const handleChange = (event) => {
 };
 ```
 
-</td>
-
-<td>
-
 ```javascript
 const handleChange = (event) => setEmail(event.target.value);
 ```
 
-</td>
-
-<td>
-
 ```javascript
 const handleChange = ({ target }) => setEmail(target.value);
 ```
-
-</td>
-
-</tr>
-</table>
 
 #### Set From Previous State
 
@@ -296,6 +278,7 @@ function Musical() {
 ```
 
 </td>
+<td>
 
 ```javascript
 import React, { useState } from 'react';
@@ -319,10 +302,8 @@ function MusicalRefactored() {
 }
 ```
 
-<td>
 </td>
-
-<tr>
+</tr>
 </table>
 
 ## Effect Hook
