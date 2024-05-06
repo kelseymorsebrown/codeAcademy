@@ -11,12 +11,15 @@ export default function GroceryCart() {
   };
 
   const removeItem = (targetIndex) => {
+    console.log(targetIndex);
     setCart((prev) => prev.filter((item, idx) => idx !== targetIndex));
   };
 
   return (
     <div>
       <h1>Grocery Cart</h1>
+      <h2>Your Cart</h2>
+      <p>Click an item in the cart list to remove it</p>
       <ul>
         {cart.map((item, index) => (
           <li onClick={() => removeItem(index)} key={index}>
@@ -24,9 +27,11 @@ export default function GroceryCart() {
           </li>
         ))}
       </ul>
-      <h2>Produce</h2>
+      <h2>Available Items</h2>
+      <p>Click an item to add it to your cart</p>
+      <h3>Produce</h3>
       <ItemList items={produce} onItemClick={addItem} />
-      <h2>Pantry Items</h2>
+      <h3>Pantry Items</h3>
       <ItemList items={pantryItems} onItemClick={addItem} />
     </div>
   );

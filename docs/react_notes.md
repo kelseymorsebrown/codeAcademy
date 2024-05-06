@@ -114,6 +114,11 @@ Built in hooks:
 - `useRef()`
 - See [the full list](https://react.dev/reference/react) in the React docs
 
+Two main rules to keep in mind when using Hooks:
+
+- Only call Hooks at the top level - not inside of loops, conditions, or nested functions.
+- Only call Hooks from React functions or custom Hooks
+
 ### State Hook > Update Function Component State
 
 - We employ the State Hook using `const [currentState, stateSetter] = useState( initialState );`. The `currentState` references the current value of the state and `initialState` initializes the value of the state for the component’s first render.
@@ -322,6 +327,21 @@ function MusicalRefactored() {
 
 ## Effect Hook
 
+The `useEffect()` hook takes in a function and an array. The function will be executed after the current render process finishes and only if the elements inside the array has changed from the previous render. The Event Hook can be used to run side effects (call to an external API, update another state, etc.) or attach event listeners.
+
+```javascript
+useEffect(
+  () => {
+    // Runs side effect here
+
+    return () => {
+      // Do clean up here
+    };
+  },
+  [] // Array of dependencies
+);
+```
+
 The Effect Hook tells our component to do something every time it’s rendered (or re-rendered). For example:
 
 1. fetch data from a back-end service.
@@ -334,6 +354,62 @@ Three key moments when the Effect Hook can be utilized:
 1. When the component is first added, or mounted, to the DOM and renders.
 1. When the state or props change, causing the component to re-render.
 1. When the component is removed, or unmounted, from the DOM.
+
+`useEffect()` has no return value - used only to call the function passed into it as an argument.
+
+Some effects require **cleanup**. Ex: when you add event listeners to some element in the DOM, it's important to remove them when you're odne with them to avoid memory leaks.
+
+Because effects run after every render and not just once, if you used an effect to add a new event listener without a cleanup function to remove it, then a new event listener would be added to the DOM every time that the component re-renders and you end up with a BUNCH of duplicitive event listeners that could cause bugs or the app to crash.
+
+```javascript
+import React, { useState, useEffect } from 'react';
+
+export default function Counter() {
+  const [clickCount, setClickCount] = useState(0);
+
+  // your code here
+  const increment = () => {
+    setClickCount((prevClickCount) => prevClickCount + 1);
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', increment);
+    return () => {
+      document.removeEventListener('mousedown', increment);
+    };
+  });
+
+  return <h1>Document Clicks: {clickCount}</h1>;
+}
+```
+
+The Effect Hook has a second argument called the **dependency array** that is used to tell the `useEffect()` method when to call the effect and when to skip it. When you utilie the dependency array, the effect is always called after the first render but only called again if something in the dependency array has changed values between renders.
+
+Pay extra close attention to when an effect is called when it's responsible for fetching data from a server. Unnecessary round trips back and forth between React components and the server can be costly in terms of:
+
+- Processing
+- Performance
+- Data usage for mobile users
+- API service fees
+
+Use the State Hook and the Effect Hook together to only fetch new data when a specific piece of state has changed.
+
+```javascript
+useEffect(() => {
+  document.title = `You clicked ${count} times`;
+}, [count]); // Only re-run the effect if the value stored by count changes
+```
+
+If you only want an effect to run when the component mounts (renders for the first time) and not when the component re-renders, you can pass an empty array to `useEffect()` as the **dependency array**.
+
+```javascript
+useEffect(() => {
+  alert('component rendered for the first time');
+  return () => {
+    alert('component is being removed from the DOM');
+  };
+}, []);
+```
 
 ## Resources
 
