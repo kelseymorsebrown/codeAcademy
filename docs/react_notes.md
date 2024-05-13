@@ -480,6 +480,78 @@ useEffect(() => {
 </tr>
 </table>
 
+## Patterns & Organization
+
+To help reduce a component’s complexity, we can break it down into multiple simpler components.
+
+One popular React programming pattern is to seperate container (stateful) components from presentational (stateless) components, where container components manage complex state or logic and presentational components only render JSX.
+
+Presentational.js
+
+```javascript
+function Presentational(/*...props*/) {
+  // body of the component
+}
+
+export default Presentational;
+```
+
+Container.js
+
+```javascript
+import { Presentational } from 'Presentational.js';
+function Container() {
+  // renders Presentational component
+}
+```
+
+### Container Components
+
+A container component should be in charge of maintaining the state (creating and updating) and passing it on to any component it renders through props.
+
+### Presentational Components
+
+A presentational component's only job is to contain JSX.
+
+- It should be an exported component
+- It should be rendered by a conainer component (so it shouldn't render itself)
+- Does not maintain state, but can still be reactive - a change in props also triggers a potential change in the rendered JSX
+- Should never directly update its props, and should instead use a change handler function passed in as a prop from the container component.
+
+### Parent/Child and Sibling/Sibling Communication
+
+Container components must define and provide a way for the presentational component to communicate with it using a change handler function passed as a prop. Indirectly results in communication between sibling components (components with a common parent).
+
+In the below example:
+
+- `Container` maintainst the `isActive` state & passes `setIsActive` to `Presentational` through the `toggle` prop
+- When `Presentational` needs to communicate a change to the `active` prop, it uses the `setIsActive` function passed to it through the `toggle` prop
+- When `Presentational` communicates a change through `toggle`, it causes a state update in `Container`, which provides the updated value for `isActive` to both `Presentational` and `OtherPresentational` through the `active` prop.
+
+```javascript
+function Container() {
+  const [isActive, setIsActive] = useState(false);
+
+  return (
+    <>
+      <Presentational active={isActive} toggle={setIsActive}/>
+      <OtherPresentational active={isActive}/>
+    </>
+    );
+  }
+
+function Presentational(props) {
+  return (
+    <h1>Engines are {props.active}</h1>
+    <button onClick={() => props.toggle(!props.active)}>Engine Toggle</button>
+  );
+}
+
+function OtherPresentational(props) {
+  // render...
+}
+```
+
 ## Resources
 
 - [React: Common components](https://react.dev/reference/react-dom/components/common#)
