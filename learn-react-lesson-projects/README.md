@@ -1,16 +1,8 @@
-# Ravenous
-
-This is a practice project for Code Academy.
+# Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## [Ravenous Part 1: Creating Project & Components](https://www.codecademy.com/projects/practice/create-prj-components)
-
-> Welcome to the Ravenous project, where you'll be building a restaurant recommendation website that allows users to search for local businesses based on their location and keywords. Using a tech stack that includes HTML, CSS, JavaScript, React, and the Yelp API, you'll be creating an application that replicates the core functionality of Yelp. If you want to get a feel for what Ravenous can be, visit the Yelp website and search for restaurants in your area.
->
-> In this first part of a four-part project, you will lay the foundations of Ravenous by building the website's homepage. By the end, you will have created a static interface for Ravenous, which features a header, a search bar, and a list of businesses.
->
-> Through the four parts of Ravenous, you'll build upon this foundation, adding features such as sorting and filtering options, and dynamic search results. By the end of the project, you'll have developed a fully functional restaurant recommendation website that will help users find their next favorite eatery.
+It is to save code written for lessons in Code Academy's Learn React course for future reference and be able to view them locally.
 
 ## Available Scripts
 
@@ -23,11 +15,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
