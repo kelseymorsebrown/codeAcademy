@@ -16,7 +16,7 @@ export default function GroceryCart() {
   };
 
   return (
-    <div>
+    <div id="groceryCart">
       <h1>Grocery Cart</h1>
       <h2>Your Cart</h2>
       <p>Click an item in the cart list to remove it</p>

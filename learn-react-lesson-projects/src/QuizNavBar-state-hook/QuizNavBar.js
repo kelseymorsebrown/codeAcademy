@@ -15,8 +15,8 @@ export default function QuizNavBar({ questions }) {
 
   return (
     <nav>
-      <span>Question #{questionIndex + 1}</span>
-      <div>
+      <span id="questionNumber">Question #{questionIndex + 1}</span>
+      <div id="navButtons">
         <button onClick={goBack} disabled={onFirstQuestion}>
           Go Back
         </button>

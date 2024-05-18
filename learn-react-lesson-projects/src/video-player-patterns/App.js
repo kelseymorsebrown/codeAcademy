@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import Video from './Video';
 import Menu from './Menu';
+import './styles.css';
 
 const VIDEOS = {
   fast: 'https://content.codecademy.com/courses/React/react_video-fast.mp4',
@@ -18,7 +19,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div id="videoPlayer">
       <h1>Video Player</h1>
       <Menu onSelectVideo={onSelectVideoHandler} />
       <Video src={src} />

@@ -18,7 +18,7 @@ export default function SocialNetwork() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="networkApp">
       <h1>My Network</h1>
       {!menu ? (
         <p>Loading..</p>

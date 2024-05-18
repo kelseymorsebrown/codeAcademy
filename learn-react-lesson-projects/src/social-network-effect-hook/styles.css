@@ -1,51 +1,45 @@
-html,
-body {
-  height: 100%;
-  background-color: #ffffff;
-  text-align: center;
-  margin: 0;
-}
+#socialNetwork {
+  * {
+    font-family: Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+  }
 
-* {
-  font-family: Helvetica, Arial, sans-serif;
-  box-sizing: border-box;
-}
+  #networkApp {
+    padding: 8px;
+  }
 
-#app {
-  padding: 8px;
-}
+  .content {
+    display: flex;
+    justify-content: space-evenly;
+    overflow: hidden;
+  }
 
-.content {
-  display: flex;
-  justify-content: space-evenly;
-  overflow: hidden;
-}
+  section {
+    overflow: scroll;
+    max-height: 80vh;
+    padding: 0 40px 0;
+    margin: 20px;
+  }
 
-section {
-  overflow: scroll;
-  max-height: 80vh;
-  padding: 0 40px 0;
-  margin: 20px;
-}
+  ul {
+    list-style: none;
+    position: relative;
+    padding: 0;
+    margin: 0;
+  }
 
-ul {
-  list-style: none;
-  position: relative;
-  padding: 0;
-  margin: 0;
-}
+  li {
+    padding-left: 1.5em;
+  }
 
-li {
-  padding-left: 1.5em;
-}
+  li:before {
+    position: absolute;
+    content: '•';
+    color: green;
+    left: 0;
+  }
 
-li:before {
-  position: absolute;
-  content: '•';
-  color: green;
-  left: 0;
-}
-
-li.offline:before {
-  color: red;
+  li.offline:before {
+    color: red;
+  }
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import GuineaPigsForm from '../components/GuineaPigsForm';
 import GuineaPigsSlideShow from '../components/GuineaPigsSlideShow';
 
@@ -32,7 +31,7 @@ function GuineaPigsContainer() {
         const nextGP = prevGP + 1;
         return nextGP % GUINEAPATHS.length;
       });
-    }, 5000);
+    }, 2500);
     return () => clearInterval(intervalId);
   }, []);
 

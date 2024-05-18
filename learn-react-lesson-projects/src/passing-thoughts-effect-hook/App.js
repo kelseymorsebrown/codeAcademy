@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { AddThoughtForm } from './AddThoughtForm';
 import { Thought } from './Thought';
 import { generateId, getNewExpirationTime } from './utilities';
+import './styles.css';
 
 export default function App() {
   const [thoughts, setThoughts] = useState([
@@ -27,7 +28,7 @@ export default function App() {
   };
 
   return (
-    <div className="App">
+    <div id="passingThoughts">
       <header>
         <h1>Passing Thoughts</h1>
       </header>
