@@ -60,7 +60,9 @@ export default function EditProfile() {
         placeholder="xxx-xxx-xxxx"
         onChange={handleChange}
       />
-      <button type="submit">Submit</button>
+      <div className="submitButton">
+        <button type="submit">Submit</button>
+      </div>
     </form>
   );
 }

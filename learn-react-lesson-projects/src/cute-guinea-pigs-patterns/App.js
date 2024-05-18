@@ -1,6 +1,13 @@
 import React from 'react';
 import GuineaPigsContainer from './containers/GuineaPigsContainer';
+import './styles.css';
 
-export default function App() {
-  return <GuineaPigsContainer />;
+function App() {
+  return (
+    <div id="guineaPigsContainer">
+      <GuineaPigsContainer />
+    </div>
+  );
 }
+
+export default App;

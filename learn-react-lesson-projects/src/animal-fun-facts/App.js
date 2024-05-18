@@ -1,5 +1,6 @@
 import React from 'react';
 import { animals } from './animals';
+import './styles.css';
 
 function App() {
   const title = '';
@@ -39,12 +40,14 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>{title || 'Click an animal for a fun fact'}</h1>
-      {showBackground && background}
-      <div className="animals">{images}</div>
-      <p id="fact"></p>
-    </div>
+    <main id="animalFunFacts">
+      <div>
+        <h1>{title || 'Click an animal for a fun fact'}</h1>
+        {showBackground && background}
+        <div className="animals">{images}</div>
+        <p id="fact"></p>
+      </div>
+    </main>
   );
 }
 
