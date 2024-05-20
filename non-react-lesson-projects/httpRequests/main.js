@@ -1,27 +1,29 @@
-// Information to reach API
-const urlGet = 'https://api.datamuse.com/words?sl=';
+// Information to reach Datamuse API
+const urlGet = 'https://api.datamuse.com/words?';
 
+// Information to reach Rebrandly API
 // to get API key, use: https://www.codecademy.com/article/rebrandly-signup
+const REBRANDY_API_KEY = 'eaaaa12fe8464a0686c47b06c71814d1';
 const apiKey = REBRANDY_API_KEY;
 const urlPost = 'https://api.rebrandly.com/v1/links';
 
-// We will need a Rebrandly API key.
-
-console.log(apiKey);
-
 // Selects page elements
-const inputFieldGet = document.querySelector('#inputGet');
 const inputFieldPost = document.querySelector('#inputPost');
-
 const submit = document.querySelector('#submit');
+const inputFieldGet = document.querySelector('#inputGeet');
 const shortenButton = document.querySelector('#shorten');
 const responseFieldGet = document.querySelector('#responseFieldGet');
 const responseFieldPost = document.querySelector('#responseFieldPost');
 
 // Asynchronous function
 const getSuggestions = () => {
-  const wordQuery = inputFieldGet.value;
-  const endpoint = `${urlGet}${wordQuery}`;
+  const wordsmithFormData = new FormData(
+    document.getElementById('wordsmith_form'),
+    document.querySelector('#submit')
+  );
+  const queryParams = wordsmithFormData.get('wordsmith_query');
+  const wordQuery = wordsmithFormData.get('text_input');
+  const endpoint = `${urlGet}${queryParams}${wordQuery}`;
 
   fetch(endpoint, { cache: 'no-cache' })
     .then(
@@ -67,13 +69,40 @@ const shortenUrl = () => {
     });
 };
 
+const getSuggestionsAsyncAwait = async () => {
+  const wordsmithFormData = new FormData(
+    document.getElementById('wordsmith_form'),
+    document.querySelector('#submit')
+  );
+  const queryParams = wordsmithFormData.get('wordsmith_query');
+  const wordQuery = wordsmithFormData.get('text_input');
+
+  const endpoint = `${urlGet}${queryParams}${wordQuery}`;
+
+  try {
+    const response = await fetch(endpoint, { cache: 'no-cache' });
+
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      renderResponseGet(jsonResponse);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Clears previous results and display results to webpage
 const displaySuggestions = (event) => {
   event.preventDefault();
   while (responseFieldGet.firstChild) {
     responseFieldGet.removeChild(responseFieldGet.firstChild);
   }
-  getSuggestions();
+
+  if (document.getElementById('sl').checked) {
+    getSuggestions();
+  } else {
+    getSuggestionsAsyncAwait();
+  }
 };
 
 const displayShortUrl = (event) => {

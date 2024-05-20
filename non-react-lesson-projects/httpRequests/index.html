@@ -26,11 +26,25 @@
         <div class="container">
           <h1>Enter a Word</h1>
 
-          <form id="form" autocomplete="off">
-            <input type="text" class="input" id="inputGet" value="" />
-            <button id="submit">SUBMIT</button>
+          <form id="wordsmith_form" autocomplete="off">
+            <input
+              type="text"
+              class="input"
+              id="inputGet"
+              name="text_input"
+              value=""
+            />
+            <input type="radio" id="sl" name="wordsmith_query" value="sl=" />
+            <label for="sl">Sounds like</label><br />
+            <input
+              type="radio"
+              id="rel_jja"
+              name="wordsmith_query"
+              value="rel_jja="
+            />
+            <label for="rel_jja">Popular nouns modified by</label><br />
+            <button id="submit">Submit</button>
           </form>
-
           <div id="responseFieldGet" class="responseField"></div>
         </div>
       </div>
@@ -44,7 +58,7 @@
         <div class="container">
           <h1>Enter a URL</h1>
 
-          <form id="form" autocomplete="off">
+          <form id="bytesize_form" autocomplete="off">
             <input type="text" class="input" id="inputPost" value="" />
             <button id="shorten">Shorten</button>
           </form>

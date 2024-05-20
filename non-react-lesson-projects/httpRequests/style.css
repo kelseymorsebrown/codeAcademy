@@ -69,6 +69,10 @@ h1 {
     margin: 0 25% 0 25%;
   }
 
+  #inputGet {
+    margin-bottom: 10px;
+  }
+
   #responseFieldGet {
     background-color: #1f233e;
     font-weight: 400;
