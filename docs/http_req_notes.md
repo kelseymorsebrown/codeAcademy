@@ -112,41 +112,6 @@ fetch('https://api-to-call.com/endpoint')
   });
 ```
 
-![codeAcademy GET boilerplate code](https://content.codecademy.com/courses/intermediate-javascript-requests/diagrams/fetch%20GET%20transparent.svg)
-
-### Async GET
-
-- `async` & `await` introduced in ES8
-- `async` function returns a promise
-- `await` keyword used within an `async` function - suspends the program while waiting for a promise to resolve
-- `try...catch` statement: code in the `try` block will be run and in the event of an exception, the code in the `catch` statement will run.
-
-Boilerplate code:
-
-```javascript
-const getData = async () => {
-  try {
-    // sends request
-    const response = await fetch('https://api-to-call.com/endpoint');
-
-    // handles response if successful
-    if (response.ok) {
-      const jsonResponse = await response.json();
-
-      // code to execute with jsonResponse
-    }
-
-    // handles response if unsuccessful
-    throw new Error('Request Failed!');
-  } catch (error) {
-    // handles response if unsuccessful
-    console.log(error);
-  }
-};
-```
-
-![codeAcademy Async Get boilerplate code](https://static-assets.codecademy.com/Courses/Learn-JavaScript/requests/async-get-request.svg)
-
 ### POST
 
 `fetch()` takes two arguments:
@@ -183,7 +148,61 @@ fetch('https://api-to-call.com/endpoint', {
   });
 ```
 
-![codeAcademy POST boilerplate](https://content.codecademy.com/courses/intermediate-javascript-requests/diagrams/fetch%20POST%20transparent.svg)
+### Async GET & POST
+
+- `async` & `await` introduced in ES8
+- `async` function returns a promise
+- `await` keyword used within an `async` function - suspends the program while waiting for a promise to resolve
+- `try...catch` statement: code in the `try` block will be run and in the event of an exception, the code in the `catch` statement will run.
+
+Boilerplate code:
+
+```javascript
+const getData = async () => {
+  try {
+    // sends request
+    const response = await fetch('https://api-to-call.com/endpoint');
+
+    // handles response if successful
+    if (response.ok) {
+      const jsonResponse = await response.json();
+
+      // code to execute with jsonResponse
+    }
+
+    // handles response if unsuccessful
+    throw new Error('Request Failed!');
+  } catch (error) {
+    // handles response if unsuccessful
+    console.log(error);
+  }
+};
+```
+
+```javascript
+const getData = async () => {
+  try {
+    // sends request
+    const response = await fetch('https://api-to-call.com/endpoint', {
+      method: 'POST',
+      body: JSON.stringify({ id: 200 }),
+    });
+
+    // handles response if successful
+    if (response.ok) {
+      const jsonResponse = await response.json();
+
+      // code to execute with jsonResponse
+    }
+
+    // handles response if unsuccessful
+    throw new Error('Request Failed!');
+  } catch (error) {
+    // handles response if unsuccessful
+    console.log(error);
+  }
+};
+```
 
 ## Caches
 

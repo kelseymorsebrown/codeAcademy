@@ -3,7 +3,6 @@ const urlGet = 'https://api.datamuse.com/words?';
 
 // Information to reach Rebrandly API
 // to get API key, use: https://www.codecademy.com/article/rebrandly-signup
-const REBRANDY_API_KEY = 'eaaaa12fe8464a0686c47b06c71814d1';
 const apiKey = REBRANDY_API_KEY;
 const urlPost = 'https://api.rebrandly.com/v1/links';
 
@@ -91,6 +90,28 @@ const getSuggestionsAsyncAwait = async () => {
   }
 };
 
+const shortenUrlAsyncAwait = async () => {
+  const urlToShorten = inputFieldPost.value;
+  const data = JSON.stringify({ destination: urlToShorten });
+
+  try {
+    const response = await fetch(urlPost, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'Content-type': 'application/json',
+        apikey: apiKey,
+      },
+    });
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      renderResponse(jsonResponse);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Clears previous results and display results to webpage
 const displaySuggestions = (event) => {
   event.preventDefault();
@@ -110,7 +131,12 @@ const displayShortUrl = (event) => {
   while (responseFieldPost.firstChild) {
     responseFieldPost.removeChild(responseFieldPost.firstChild);
   }
-  shortenUrl();
+
+  if (document.getElementById('promise_post').checked) {
+    shortenUrl();
+  } else {
+    shortenUrlAsyncAwait();
+  }
 };
 
 submit.addEventListener('click', displaySuggestions);
