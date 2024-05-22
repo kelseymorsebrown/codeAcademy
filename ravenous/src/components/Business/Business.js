@@ -8,7 +8,7 @@ function Business({ business }) {
         <img
           key={business.name}
           alt={business.name}
-          src={require(`../../images/${business.image}`)}
+          src={business.image}
           aria-label={business.name}
         />
       </div>

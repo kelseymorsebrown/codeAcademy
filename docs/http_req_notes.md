@@ -90,6 +90,12 @@ Two `.then()`methods are chained to the `fetch()` function:
   - Will only fire after the previous .then() method has finished running without error
   - Takes the `response.json()` object returned from the previous `.then()` method as its parameter
 
+The [fetch() browser API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) may not be supported by older browsers. You can increase the accessibility of applications using `fetch()` by adding a `fetch()` polyfill to support older browsers:
+
+```bash
+npm install whatwg-fetch --save
+```
+
 ### GET
 
 Boilerplate code:
@@ -205,6 +211,19 @@ const getData = async () => {
   }
 };
 ```
+
+### CORS
+
+If you see errors with your `fetch()` method, it may not be working properly due to CORS restrictions.
+
+**For development purposes only** you can bypas this restriction with an API called [CORS Anywhere](https://cors-anywhere.herokuapp.com/corsdemo). It takes requests sent to its API endpoint, makes them for the requesting app with the proper CORS permissions, and then returns the response back to the requesting app.
+
+- In your browser, visit https://cors-anywhere.herokuapp.com/corsdemo and click “Request temporary access to the demo server”
+- Back in your code, prepend the URL path you passed to the first argument in `fetch()` with the following: `https://cors-anywhere.herokuapp.com/`
+
+- [React CORS Guide: What It Is and How to Enable It](https://www.stackhawk.com/blog/react-cors-guide-what-it-is-and-how-to-enable-it/)
+- [What is CORS?](https://www.stackhawk.com/blog/what-is-cors/)
+- [NodeJS CORS Guide: What It Is and How to Enable It](https://www.stackhawk.com/blog/nodejs-cors-guide-what-it-is-and-how-to-enable-it/)
 
 ## Caches
 
