@@ -40,11 +40,14 @@ p {
   margin: 0;
 }
 
-.BusinessInfo p {
-  font-size: 0.88rem;
-  font-weight: 300;
+p.rating {
+  font-size: 0.78rem;
   line-height: 1rem;
-  margin: 0;
+}
+
+.boldAndGold {
+  color: #cca353;
+  font-weight: 600;
 }
 
 .BusinessAddress {

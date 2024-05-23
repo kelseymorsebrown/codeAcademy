@@ -16,7 +16,7 @@ const sortByOptions = [
   },
 ];
 
-function SearchBar() {
+function SearchBar({ searchYelp }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [location, setLocation] = useState('');
   const [sortingOption, setSortingOption] = useState('best_match');
@@ -31,9 +31,8 @@ function SearchBar() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(
-      `Searching Yelp with ${searchTerm}, ${location}, ${sortingOption}`
-    );
+
+    searchYelp(searchTerm, location, sortingOption);
   };
 
   const renderSortingOptions = () => {
