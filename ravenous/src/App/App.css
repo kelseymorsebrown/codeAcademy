@@ -20,8 +20,3 @@ input:focus {
   color: #fff;
   margin: 0;
 }
-
-.searchError {
-  text-align: center;
-  margin: 4.4rem 10%;
-}

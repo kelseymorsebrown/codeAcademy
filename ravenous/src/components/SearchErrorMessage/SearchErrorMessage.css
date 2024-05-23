@@ -1,0 +1,8 @@
+.searchErrorMessage {
+  text-align: center;
+  margin: 4.4rem 10%;
+
+  h2 {
+    color: #cca353;
+  }
+}

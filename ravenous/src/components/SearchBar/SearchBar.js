@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './SearchBar.css';
-import yelpAPI from '../../utils/yelpApi';
 
 const sortByOptions = [
   {

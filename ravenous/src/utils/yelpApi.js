@@ -34,13 +34,12 @@ const yelpAPI = {
           const businessList = jsonResponse.businesses.map((businesses) => {
             return {
               image: businesses.image_url,
-              name: businesses.location.address1,
+              name: businesses.name,
+              address: businesses.location.address1,
               city: businesses.location.city,
               state: businesses.location.state,
               zipcode: businesses.location.zip_code,
-              category: businesses.categories
-                .map((category) => category.title)
-                .join(', '),
+              category: businesses.categories[0].title,
               rating: businesses.rating,
               review_count: businesses.review_count,
             };

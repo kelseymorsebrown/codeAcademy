@@ -1,25 +1,13 @@
 import React, { useState } from 'react';
-import SearchBar from './components/SearchBar/SearchBar';
-import BusinessList from './components/BusinessList/BusinessList';
+import SearchBar from '../components/SearchBar/SearchBar';
+import BusinessList from '../components/BusinessList/BusinessList';
+import SearchErrorMessage from '../components/SearchErrorMessage/SearchErrorMessage';
 import './App.css';
-import yelpAPI from './utils/yelpApi';
-
-// const mockBusiness = {
-//   image: 'IDOScard.png',
-//   name: 'I Dream of Sweets',
-//   address: '824 Noyes St.',
-//   city: 'Evanston',
-//   state: 'IL',
-//   zipcode: '60202',
-//   category: 'Cafe',
-//   rating: 3,
-//   review_count: 2,
-// };
-
-// const mockBusinessList = [mockBusiness, mockBusiness, mockBusiness];
+import yelpAPI from '../utils/yelpApi';
 
 function App() {
   const [businesses, setBusinesses] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const searchYelp = async (searchTerm, location, sortingOption) => {
     const businesses = await yelpAPI.getBusinessListings(
@@ -27,9 +15,17 @@ function App() {
       location,
       sortingOption
     );
-    console.log(businesses);
+
     setBusinesses(businesses);
+    if (!location) {
+      !searchTerm
+        ? setErrorMessage(`Where do you want to search?`)
+        : setErrorMessage(`Where do you want to search for "${searchTerm}"?`);
+    } else {
+      setErrorMessage(null);
+    }
   };
+
   return (
     <div className="App">
       <header>
@@ -40,9 +36,7 @@ function App() {
         {businesses ? (
           <BusinessList businesses={businesses} />
         ) : (
-          <div className="searchError">
-            Please enter both a search term and location.
-          </div>
+          <SearchErrorMessage errorMessage={errorMessage} />
         )}
       </main>
     </div>
