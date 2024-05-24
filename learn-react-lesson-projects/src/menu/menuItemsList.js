@@ -1,16 +1,17 @@
-import { default as VideoPlayerApp } from '../video-player-patterns/App';
-import { default as AnimalFunFactsApp } from '../animal-fun-facts/App';
-import { default as AuthorizationFormApp } from '../authorization-form-state-hook/App';
-import { default as WeatherPlannerApp } from '../weather-planner-effect-hook/App';
-import { default as CodeyOverflowForumApp } from '../CodeyOverflowForum/App';
-import { default as CuteGuineaPigsApp } from '../cute-guinea-pigs-patterns/App';
-import { default as GroceryCartApp } from '../GroceryCart-state-hook/App';
-import { default as PassingThoughtsApp } from '../passing-thoughts-effect-hook/App';
-import { default as ProfileFormApp } from '../ProfileForm-state-hook/App';
-import { default as QuizNavBarApp } from '../QuizNavBar-state-hook/App';
-import { default as SocialNetworkApp } from '../social-network-effect-hook/App';
-import { default as TimerApp } from '../timer-effect-hook/App';
-import { default as HighScoresApp } from '../high-score-styles/App';
+import { default as VideoPlayerApp } from '../lessons/video-player-patterns/App';
+import { default as AnimalFunFactsApp } from '../lessons/animal-fun-facts/App';
+import { default as AuthorizationFormApp } from '../lessons/authorization-form-state-hook/App';
+import { default as WeatherPlannerApp } from '../lessons/weather-planner-effect-hook/App';
+import { default as CodeyOverflowForumApp } from '../lessons/CodeyOverflowForum/App';
+import { default as CuteGuineaPigsApp } from '../lessons/cute-guinea-pigs-patterns/App';
+import { default as GroceryCartApp } from '../lessons/GroceryCart-state-hook/App';
+import { default as PassingThoughtsApp } from '../lessons/passing-thoughts-effect-hook/App';
+import { default as ProfileFormApp } from '../lessons/ProfileForm-state-hook/App';
+import { default as QuizNavBarApp } from '../lessons/QuizNavBar-state-hook/App';
+import { default as SocialNetworkApp } from '../lessons/social-network-effect-hook/App';
+import { default as TimerApp } from '../lessons/timer-effect-hook/App';
+import { default as HighScoresApp } from '../lessons/high-score-styles/App';
+import { default as SchoolAdminFormApp } from '../lessons/school-admin-form/App';
 
 const menuItemsList = [
   {
@@ -86,6 +87,13 @@ const menuItemsList = [
     name: 'High Score',
     route: '/highScores',
     component: <HighScoresApp />,
+  },
+
+  // Forms Practice
+  {
+    name: 'School Admin Form',
+    route: '/schoolAdminForm',
+    component: <SchoolAdminFormApp />,
   },
 ];
 
