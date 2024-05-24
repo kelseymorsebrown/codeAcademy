@@ -2,7 +2,7 @@
   width: 500px;
   height: 300px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   padding: 0px;
 }
 
@@ -18,4 +18,14 @@
   flex-direction: row;
   justify-content: space-between;
   margin: 0;
+}
+
+.columnHeader h3,
+.HighScore div {
+  flex: 1 0;
+}
+
+.columnHeader h3:nth-child(3),
+.HighScore div:nth-child(3) {
+  text-align: right;
 }

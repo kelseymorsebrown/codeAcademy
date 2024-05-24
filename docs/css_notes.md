@@ -1,6 +1,35 @@
 # CSS Notes
 
-## Margin Collapse
+## Box Model
+
+CSS _box model_ is a box that wraps around an HTML element and controls the design and layout.
+
+[Box Model Cheatsheeet](https://www.codecademy.com/learn/learn-css/modules/learn-css-box-model/cheatsheet)
+
+### Box Sizing
+
+The property `box-sizing` controls which aspect of the box is determined by the `height` and `width` properties - aka which box model is used by the browser
+
+- `content-box` Renders the actual size of the element including the content box, but not the padding and borders. This is the default value.
+- `border-box` Renders the actual size of an element including the content box, paddings, and borders
+
+In the default [box model](https://www.codecademy.com/resources/docs/css/box-model), (`content-box`) box dimensions are affected by border thickness and padding.
+
+We can reset the entire [box model](https://www.codecademy.com/resources/docs/css/box-model) and specify a new one: `border-box` which is **not** affected by border thickness or padding.
+
+```css
+* {
+  box-sizing: border-box;
+}
+```
+
+In this box model, the height and width of the box will remain fixed. The border thickness and padding will be included inside of the box, which means the overall dimensions of the box do not change.
+
+### Margin Collapse
+
+CSS _margin collapse_ occurs when the top and bottom margins of blocks are combined into a single margin equal to the largest individual block margin.
+
+Margin collapse only occurs with vertical margins, not for horizontal margins.
 
 Horizontal margins (left and right), like padding, are always displayed and added together. In this example, the space between the `#img-one` and `#img-two` [borders](https://www.codecademy.com/resources/docs/css/borders) is 40 pixels. The right margin of `#img-one` (20px) and the left margin of `#img-two` (20px) add to make a total margin of 40 pixels.
 
@@ -26,6 +55,36 @@ Unlike horizontal margins, vertical margins do not add. Instead, the larger of t
 }
 ```
 
+## Positioning
+
+- The [`position`](https://www.codecademy.com/resources/docs/css/position) property allows you to specify the position of an element.
+  - When set to `relative`, an element’s position is relative to its default position on the page.
+  - When set to `absolute`, an element’s position is relative to its closest positioned parent element. It can be pinned to any part of the web page, but the element will still move with the rest of the document when the page is scrolled.
+  - When set to `fixed`, an element’s position can be pinned to any part of the web page. The element will remain in view no matter what.
+  - When set to `sticky`, an element can stick to a defined offset position when the user scrolls its parent container.
+- The [`z-index`](https://www.codecademy.com/resources/docs/css/position/z-index) of an element specifies how far back or how far forward an element appears on the page when it overlaps other elements.
+- The [`display`](https://www.codecademy.com/resources/docs/css/display) property allows you to control how an element flows vertically and horizontally in a document.
+  - `inline` elements take up as little space as possible, and they cannot have manually adjusted width or height.
+  - `block` elements take up the width of their container and can have manually adjusted heights.
+  - `inline-block` elements can have set width and height, but they can also appear next to each other and do not take up their entire container width.
+- The [`float`](https://www.codecademy.com/resources/docs/css/display/float) property can move elements as far left or as far right as possible on a web page.
+- You can [`clear`](https://www.codecademy.com/resources/docs/css/display/clear) an element’s left or right side (or both) using the clear property.
+
+## Flexbox
+
+[CSS Flexbox and Grid Cheatsheet](https://www.codecademy.com/learn/learn-css-flexbox-and-grid/modules/layout-with-flexbox/cheatsheet)
+
+[flex-flow](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-flow) specifies the direction of a flex container, as well as its wrapping behavior. Can be set to a `flex-direction` value, a `flex-wrap` value, or a `flex-diriection` value followed by a `flex-wrap` value
+
+- [flex-direction](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction) sets how flex items are placed in the flex container defining the main axis and the direction (normal or reversed) - `row` `row-reverse` `column` `column-reverse`
+- [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap) sets whether flex items are forced onto one line or can wrap onto multiple lines. If wrapping is allowed, it sets the direction that lines are stacked - `nowrap` `wrap` `wrap-reverse`
+
+[flex](https://developer.mozilla.org/en-US/docs/Web/CSS/flex) sets how a flex item will grow or shrink to fit the space available in its flex container. This property is a shorthand for the `flex-grow` `flex-shrink` and `flex-basis` CSS properties. As such, It's possible values get a little complex, see the [syntax documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/flex#syntax).
+
+- [flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow) sets the flex grow factor, which specifies how much of the flex container's remaining space should be assigned to the flex item's main size. Accepts a numeric value.
+- [flex-shrink] sets the flex shrink factor of a flex item. If the size of all flex items is larger than the flex container, items shrink to fit according to `flex-shrink`. Accepts a numeric value.
+- [flex-basis](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis) sets the initial main size of a flex item. It sets the size of the content box unless otherwise set with [box-sizing](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing) - ex: `auto` `0` `200px`
+
 ## Resetting Defaults
 
 All major web browsers have a default stylesheet they use in the absence of an external stylesheet. These default stylesheets are known as user agent stylesheets. In this case, the term _[user agent](https://en.wikipedia.org/wiki/User_agent)_ is a technical term for the browser.
@@ -44,37 +103,6 @@ Many developers choose to reset these default values so that they can truly work
 The code in the example above resets the default margin and padding values of all HTML elements. It is often the first CSS rule in an external stylesheet.
 
 Note that both properties are set to 0. When these properties are set to 0, they do not require a unit of measurement.
-
-### Border-box
-
-The `box-sizing` property controls the box model used by the browser, and its default value is `content-box`.
-
-In the default [box model](https://www.codecademy.com/resources/docs/css/box-model), box dimensions are affected by border thickness and padding.
-
-We can reset the entire [box model](https://www.codecademy.com/resources/docs/css/box-model) and specify a new one: `border-box` which is **not** affected by border thickness or padding.
-
-```css
-* {
-  box-sizing: border-box;
-}
-```
-
-In this box model, the height and width of the box will remain fixed. The border thickness and padding will be included inside of the box, which means the overall dimensions of the box do not change.
-
-## Positioning
-
-- The [`position`](https://www.codecademy.com/resources/docs/css/position) property allows you to specify the position of an element.
-  - When set to `relative`, an element’s position is relative to its default position on the page.
-  - When set to `absolute`, an element’s position is relative to its closest positioned parent element. It can be pinned to any part of the web page, but the element will still move with the rest of the document when the page is scrolled.
-  - When set to `fixed`, an element’s position can be pinned to any part of the web page. The element will remain in view no matter what.
-  - When set to `sticky`, an element can stick to a defined offset position when the user scrolls its parent container.
-- The [`z-index`](https://www.codecademy.com/resources/docs/css/position/z-index) of an element specifies how far back or how far forward an element appears on the page when it overlaps other elements.
-- The [`display`](https://www.codecademy.com/resources/docs/css/display) property allows you to control how an element flows vertically and horizontally in a document.
-  - `inline` elements take up as little space as possible, and they cannot have manually adjusted width or height.
-  - `block` elements take up the width of their container and can have manually adjusted heights.
-  - `inline-block` elements can have set width and height, but they can also appear next to each other and do not take up their entire container width.
-- The [`float`](https://www.codecademy.com/resources/docs/css/display/float) property can move elements as far left or as far right as possible on a web page.
-- You can [`clear`](https://www.codecademy.com/resources/docs/css/display/clear) an element’s left or right side (or both) using the clear property.
 
 ## Fonts
 
@@ -155,3 +183,5 @@ The `text-transform` property
 - [Inline-level content](https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content)
 - [Block-level content](https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content)
 - [Web Safe fonts](https://www.cssfontstack.com/)
+- [Mastering the CSS :nth-child() selector](https://medium.com/@quinnfeng26276/mastering-the-css-nth-child-selector-59d8af92fdd4)
+- [flexbox froggy](https://flexboxfroggy.com/)

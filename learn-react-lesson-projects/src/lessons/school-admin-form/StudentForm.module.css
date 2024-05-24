@@ -1,0 +1,22 @@
+.formContainer {
+  display: flex;
+}
+
+.inputForm {
+  text-align: left;
+  flex: 1 0;
+  margin-right: 30px;
+  width: 60%;
+  h4 {
+    margin-block-end: 1em;
+  }
+}
+
+.currentInput {
+  text-align: left;
+  margin-left: 30px;
+  width: 40%;
+  ul {
+    padding-left: 15px;
+  }
+}

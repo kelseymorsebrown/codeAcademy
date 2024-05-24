@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import './App.css';
+import styles from './App.module.css';
 import Menu from './menu/Menu';
 import menuItemsList from './menu/menuItemsList';
 
@@ -9,14 +9,17 @@ export default function App() {
   const [openMenu, setOpenMenu] = useState(false);
 
   return (
-    <div className="App">
-      <div className="navbar">
-        <div className="dropdown">
-          <button className="dropbtn" onClick={() => setOpenMenu(!openMenu)}>
+    <div className={styles.App}>
+      <div className={styles.navbar}>
+        <div className={styles.dropdown}>
+          <button
+            className={styles.dropbtn}
+            onClick={() => setOpenMenu(!openMenu)}
+          >
             Menu <i className="fa fa-caret-down"></i>
           </button>
           {openMenu && (
-            <div className="dropdown-content">
+            <div className={styles.dropdownContent}>
               <Menu data={menuItemsList} toggeOpen={setOpenMenu} />
             </div>
           )}
