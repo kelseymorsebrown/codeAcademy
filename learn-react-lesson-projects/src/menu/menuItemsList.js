@@ -12,6 +12,7 @@ import { default as SocialNetworkApp } from '../lessons/social-network-effect-ho
 import { default as TimerApp } from '../lessons/timer-effect-hook/App';
 import { default as HighScoresApp } from '../lessons/high-score-styles/App';
 import { default as SchoolAdminFormApp } from '../lessons/school-admin-form/App';
+import { default as FoodOrderFormApp } from '../lessons/food-order-form/App';
 
 const menuItemsList = [
   {
@@ -94,6 +95,11 @@ const menuItemsList = [
     name: 'School Admin Form',
     route: '/schoolAdminForm',
     component: <SchoolAdminFormApp />,
+  },
+  {
+    name: 'Food Order Form',
+    route: '/foodOrderForm',
+    component: <FoodOrderFormApp />,
   },
 ];
 

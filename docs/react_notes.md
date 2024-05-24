@@ -614,12 +614,255 @@ To use CSS modules:
 
 - Styles are applied using the `className` attribute rather than `class` because `class` is a reseved JavaScript keyword.
 
+## Forms
+
+- In a non-React environment, when a user types data into a form's input fields, the server doesn't know about it until the user hits a "submit" button, which sends all fo the form's data over to the server simultaneously.
+- The problem is the period of time during with a form thinks a user has typed on thing, but the server things the user has typed a different thing - what if during that time, a _third_ part of the website needs to know what a user has typed? The server & the form would have conflicting answers, which could lead to problems.
+- In a React form, you want the server to know about every change to the form inputs _as soon as they happen_ so your screen will always be in sync with the rest of the application
+- The state of a React form is managed by the component, and updates are triggered by the `onChange` event.
+- The `onChange` event uses an event handler to capture changes and determine what actions to take.
+- A React form uses the State hook to store the value of the input field in the component's state. The state can then be updated with the state setter.
+- React components can be "controlled" or "uncontrolled". Most React forms are controlled, as they control the input's value with the state.
+
+Example uses of React forms:
+
+- Autofill search that tries to offer suggested search terms as you type into the field
+- AUtoloading the search results, which load as you type things into the search field
+- Games such as speed typing games can utilize React forms to give you points or deductions based on typing accuracy
+
+### Input onChange
+
+- In regular HTML, the state of the form is managed by the browser but doesn't update the server until the user hits "submit"
+- In React forms, the state of the form can be managed by the component, and updates are trigged by the `onChange` event
+- Your change handler function calls the state setter function to set the state variable to whatever text is currently in the `<input>` field, however that won't update the `value` prop for `<input>`.
+  - In React, the `value` prop of an input elemeent is used to control the value of the input and keep it in sync with the component's state
+  - So without setting the `value` prop, changes to the input wouldn't be reflected in the _component's_ state
+  - So you _also_ need to remember to give your `<input>` tag a `value` attribute that equals your state variable so when the state is updated, the component re-renders, and the `value` prop is set to the new value from the component's state, which makes the component state the "source of truth" for the input's value and ensures everything's in sync and the form data is consistent
+
+```javascript
+import React, { useState } from 'react';
+
+function Input() {
+
+  // Define an input state variable and its corresponding state setter function
+  const [userInput, setUserInput] = useState('')
+
+  // Define an input event handler that will listen for change events and update the state of the input
+  function handleUserInput(e) {
+    setUserInput(e.target.value)
+  }
+
+  return (
+    <>
+      <form>
+        <label for="exampleInput">Input field: </label>
+        <input
+          id='exampleInput'
+          type='text'
+
+          {/* Tell your handler function to listen to change events */}
+          onChange={handleUserInput}
+
+          {/* Set the input tag's value to the state variable so the form data is always in sync with the component state */}
+          value={userInput}
+        />
+      </form>
+      <p><strong>Current User Input: </strong></p>
+      <p>{userInput}</p>
+    </>
+  )
+}
+
+```
+
+### Controlled vs Uncontrolled
+
+- **Controlled Component:** a component that does not maintain any internal state & is controlled by someone else. Most React components are controlled.
+- **Uncontrolled Component:** a component that maintains its own internal state.
+
+In React, you generally want to use controlled components whenever possible because they allow for change-by-change tracking of input form values and better align with React's pattern of storing mutable data in a component's state.
+
+However, if you only need access to the value of the form on submission or are using a `<input type='file'>` form element, then uncontrolled components can be a valuable tool to have in your React toolbelt.
+
+**Note:** "controlled" and "uncontrolled" cannot be used interchangeably with the terms "stateless" and "stateful"
+
+- The terms "controlled" and "uncontrolled" are always used in the context of React forms, which can be "stateless" or "stateful".
+- However, "controlled" and "uncontrolled" components are usually attributed with a "stateless" and a "stateful" nature, respectively.
+  - A controlled component has its state controlled from outside. Because of this, controlled components are usually stateless as they do not store their own state and receive it from a parent component.
+  - Uncontrolled components are essentially stateful, as they store and maintain their own internal state.
+
+[React Docs: Controlled and uncontrolled components](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components)
+
+### Uncontrolled Component
+
+An `<input  type='text />` element is an example of an _uncontrolled component_ becuase it keeps track of its own text (aka maintains its own internal state) and you can access what its text is at any time, possibly with some code like this:
+
+```javascript
+let input = document.querySelector('input[type="text"]');
+
+let typedText = input.value;
+// will always be equal to whatever text is currently in the text box
+```
+
+Another way to retrieve the value of an uncontrolled component directly from the DOM when we need it is to use a [ref](https://react.dev/learn/referencing-values-with-refs).
+
+You can create a new uncontrolled component using the [`useRef()` method](https://react.dev/reference/react/useRef).
+
+- `useRef()` returns an object with a `.current` property that refers to the DOM node it is bound to
+- This ref object is bound to a form element using the `ref` attribute
+- Whenever the value of that form element needs to be retrieved, you refer back to the ref object's `.current` property
+
+```javascript
+import ReactDOM from 'react-dom';
+import React from 'react';
+
+function PhoneNumberForm() {
+  // the numberRef object is created
+  const numberRef = React.useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // the value of the form element can be retireved from the DOM node stored in numberRef.current
+    const number = numberRef.current.value;
+
+    if (Number.isNaN(Number(number))) {
+      alert('Error: Only numbers allowed.');
+    } else if (number.length >= 10) {
+      alert('Error: Number length exceeded 10 digits.');
+    } else {
+      alert(`Sending confirmation code to ${number}.`);
+    }
+  };
+
+  // the numberRef object is bound to the <input> form element
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Phone Number:
+        <input type="tel" ref={numberRef} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+export default PhoneNumberForm;
+```
+
+**Note:** `<input>` DOM nodes are instances of [HTMLInputElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement), so their values can be retrieved using the `.value` property. Other form elements may use different properties to access their input values.
+
+### Controlled Component
+
+On other other hand, if you ask a controlled component for information about itself, it will have to get it's information through `props`.
+
+While form elements (`<input>`, `<textarea>`, etc.) are capable of managing their own internal state, in React we typically prefer to maintain anymutable state values within the state property of our components - in other words, turn them into controlled components.
+
+You do this by providing a `value` attribute on the `<input>` element and assigning a component state variable to it.
+
+This allows us to perform immediate validation on every change in the form - like ensure that only numbers are used, or enforce character limits.
+
+```javascript
+import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
+
+function PhoneNumberForm() {
+  const [number, setNumber] = useState(0);
+
+  const handleChange = (e) => {
+    const newNumber = e.target.value;
+
+    if (!Number.isNaN(Number(newNumber)) && newNumber.length <= 10) {
+      setNumber(e.target.value);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Sending confirmation code to ${number}.`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Phone Number:
+        <input type="tel" value={number} onChange={handleChange} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+export default PhoneNumberForm;
+```
+
+### When to use Uncontrolled Components
+
+While creating uncontrolled components are faster and easier than creating controlled components in some ways, given their departure from the React pattern of storing mutable data in a component's state, controlled components are recommended for most scenarios.
+
+**The one situation in which uncontrolled components must always be used:**
+
+- `<input>` form elements with the `type="file"` attribute
+- The value for this type of `<input>` form element can only be set by a user, and not programmatically, and therefore the only way to retrieve this value is through a ref.
+
+In this example, we again create a ref using the `React.createRef()` method and then bind it to the `<input>` form element. The uploaded file is stored in the array-like FileList returned by `fileRef.current.files` and the `.size` property of this file is accessed when the user submits the form.
+
+```javascript
+import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
+
+function PhoneNumberForm() {
+  const fileRef = React.useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const size = fileRef.current.files[0].size;
+    alert(`This file is ${size} bytes`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        <input type="file" ref={fileRef} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+
+export default PhoneNumberForm;
+```
+
 ## Resources
 
 - [React: Common components](https://react.dev/reference/react-dom/components/common#)
 - [What is a component’s instance?](https://discuss.codecademy.com/t/what-is-a-components-instance/384827)
-- Task List Tutorials/Examples
-  - [CodeAcademy](https://www.codecademy.com/paths/build-web-apps-with-react/tracks/react-component-state/modules/react-hooks-u/lessons/the-state-hook/exercises/review)
-  - [MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning)
-  - [geeks for geeks](https://www.geeksforgeeks.org/create-todo-app-using-reactjs/)
-  - [pusher](https://pusher.com/tutorials/todo-app-react-hooks/#introduction)
+- [React: CodeAcademy Resource Docs](https://www.codecademy.com/resources/docs/react)
+  - [Components](https://www.codecademy.com/resources/docs/react/components)
+  - [Context](https://www.codecademy.com/resources/docs/react/context)
+  - [Hooks](https://www.codecademy.com/resources/docs/react/hooks)
+  - [JSX](https://www.codecademy.com/resources/docs/react/jsx)
+  - [Lifecycle Methods](https://www.codecademy.com/resources/docs/react/lifecycle-methods)
+  - [Props](https://www.codecademy.com/resources/docs/react/props)
+  - [React Native](https://www.codecademy.com/resources/docs/react/react-native)
+  - [Routing](https://www.codecademy.com/resources/docs/react/routing)
+  - [State](https://www.codecademy.com/resources/docs/react/state)
+  - [Virtual DOM](https://www.codecademy.com/resources/docs/react/virtual-dom)
+
+CodeAcademy LearnReact Cheatsheets:
+
+- [JSX](https://www.codecademy.com/learn/react-101/modules/react-101-jsx-u/cheatsheet)
+- [React Components](https://www.codecademy.com/learn/react-101/modules/learn-react-components/cheatsheet)
+- [Components Interacting](https://www.codecademy.com/learn/react-101/modules/learn-react-components-interacting/cheatsheet)
+- [Hooks](https://www.codecademy.com/learn/react-101/modules/react-hooks-u/cheatsheet)
+- [Programming Patterns](https://www.codecademy.com/learn/react-101/modules/react-programming-patterns/cheatsheet)
+- [React Styles](https://www.codecademy.com/learn/react-101/modules/react-styles/cheatsheet)
+- [React Forms](https://www.codecademy.com/learn/react-101/modules/react-forms/cheatsheet)
+
+Task List Tutorials/Examples
+
+- [CodeAcademy](https://www.codecademy.com/paths/build-web-apps-with-react/tracks/react-component-state/modules/react-hooks-u/lessons/the-state-hook/exercises/review)
+- [MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning)
+- [geeks for geeks](https://www.geeksforgeeks.org/create-todo-app-using-reactjs/)
+- [pusher](https://pusher.com/tutorials/todo-app-react-hooks/#introduction)
