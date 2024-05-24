@@ -10,6 +10,7 @@ import { default as ProfileFormApp } from '../ProfileForm-state-hook/App';
 import { default as QuizNavBarApp } from '../QuizNavBar-state-hook/App';
 import { default as SocialNetworkApp } from '../social-network-effect-hook/App';
 import { default as TimerApp } from '../timer-effect-hook/App';
+import { default as HighScoresApp } from '../high-score-styles/App';
 
 const menuItemsList = [
   {
@@ -78,6 +79,13 @@ const menuItemsList = [
     name: 'Cute Guinea Pigs',
     route: '/cuteGuineaPigs',
     component: <CuteGuineaPigsApp />,
+  },
+
+  // Styles practice
+  {
+    name: 'High Score',
+    route: '/highScores',
+    component: <HighScoresApp />,
   },
 ];
 

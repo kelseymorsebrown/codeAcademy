@@ -13,7 +13,7 @@ export default function App() {
       <div className="navbar">
         <div className="dropdown">
           <button className="dropbtn" onClick={() => setOpenMenu(!openMenu)}>
-            Menu <i class="fa fa-caret-down"></i>
+            Menu <i className="fa fa-caret-down"></i>
           </button>
           {openMenu && (
             <div className="dropdown-content">
