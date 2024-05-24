@@ -552,6 +552,68 @@ function OtherPresentational(props) {
 }
 ```
 
+## Styles
+
+### Inline Styles and Style Object Variables
+
+- Inline style is a style written as an attribute
+
+  - has double curly braces: outer braces indicate its contents should be read as javascript, inner braces create an object literal
+
+  ```javascript
+  <h1 style={{ color: 'red' }}>Hello world</h1>
+  ```
+
+- Styles can also be stores as object variables that can be assigned as the value of a "style" attribute
+
+  ```javascript
+  const darkMode = {
+    color: 'white',
+    background: 'black',
+  };
+  ```
+
+  ```javascript
+  <h1 style={darkMode}>Hello world</h1>
+  ```
+
+- CSS property names must be written in _camelCase_ in React. Ex `backgroundColor` instead of `background-color`.
+  - This is because a hyphen is a reserved operator in JavaScript and will be interpreted as a minus sign.
+- In Javascript, style _values_ are almost always strings and require quotation marks. If you write a style value as a number, then the unit `'px'` is assumed.
+
+### CSS Modules
+
+- You can also write a seperate stylesheet for each component
+- Import the stylesheet using the `import` keyword: `import './App.css'`
+- If multiple stylesheets have the same class names, the names can collide and create style conflicts
+- A way to prevent this is to use CSS modules
+- Importing the styles as a module causes the styles to only be available for the component that imported the style
+- This is done automatically by creating unique class names for each module
+- **CSS Modules are the preferred method for styling in React, as they maintain the comositional philosophy of React**
+
+To use CSS modules:
+
+- Name the stylesheet in this format:
+
+  ```javascript
+  fileName.module.css;
+  ```
+
+- Import the stylesheet into the file containing the component
+
+  ```javascript
+  import styles from './fileName.module.css';
+  ```
+
+- The `styles` object holds the class selectors of `fileName.module.css`
+- To access the selectors, use dot notation:
+
+  ```javascript
+  <div className={styles.divStyle}></div>
+  ```
+
+- Styles are applied using the `className` attribute rather than `class` because `class` is a reseved JavaScript keyword.
+
 ## Resources
 
 - [React: Common components](https://react.dev/reference/react-dom/components/common#)
