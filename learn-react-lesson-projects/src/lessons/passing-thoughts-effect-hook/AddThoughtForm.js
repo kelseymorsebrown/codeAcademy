@@ -15,10 +15,11 @@ export function AddThoughtForm(props) {
     };
 
     if (text.trim() !== '') {
-      props.addThought(newThought);
+      setTimeout(() => {
+        props.addThought(newThought);
+        setText('');
+      }, 500);
     }
-
-    setText('');
   };
 
   return (
@@ -30,7 +31,7 @@ export function AddThoughtForm(props) {
         value={text}
         onChange={handleTextChange}
       />
-      <input type="submit" value="Add" />
+      <input type="submit" role="submit" value="Add" />
     </form>
   );
 }

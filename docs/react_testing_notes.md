@@ -260,3 +260,295 @@ it('Gets the full recipe for a dish', async () => {
   expect(actualRecipe).toEqual(expectedValue);
 });
 ```
+
+## React Testing Library
+
+- A UI-layer testing framework that helps us ensure that our React components are rendering and behaving properly
+- Built explicltly for testing React components
+- Allows testing components in a way that mimics real user interactions
+  - User will only care if they can use the app or not - they don't care about the implementation details of a React component (like state or props)
+
+With the React Testing Library, we can:
+
+- Virtually render React components in the testing environment
+- Use the `screen` object to query elements in the DOM to make assertions
+- Utilize the `user-event` library extension to simulate user interactions in the DOM
+- Understand the difference between query methods in React Testing Library
+- Work with asynchronously rendered elements and understand the best practices to test them
+- Verify the behavior of components that make API calls
+
+### The Render and Screen Objects
+
+- `render()`: a function we can use to virtually render components and make them available in our unit tests. Takes in JSX as an argument similar to `ReactDOM.render()`
+- `screen`: special object which can be thought of as a representation of the browser window.
+  - `screen.debug()`: prints out all the DOM contents so we can make sure that our virtually rendered components are available to the test
+- import from `@testing-library/react`
+
+Example test:
+
+```javascript
+import { render, screen } from '@testing-library/react';
+
+const Greeting = () => {
+  return <h1>Hello World</h1>;
+};
+
+it('prints out the contents of the DOM', () => {
+  render(<Greeting />);
+  screen.debug();
+});
+```
+
+And the `screen.debug()` output:
+
+```html
+<body>
+  <div>
+    <h1>Hello World</h1>
+  </div>
+</body>
+```
+
+### Querying with RTL
+
+To work with the DOM elements to test how they react to user actions:
+
+1. Query for and extract the DOM nodes from our virtually rendered components
+2. Check to see if the extratcted DOM nodes were rendered as expected
+
+RTL ha smany built-in query methods to simplify this process.
+
+#### .getByX query methods
+
+- There are a number of `.getByX` query methods in the [docs](https://testing-library.com/docs/queries/about/)
+- They are all accessible as methods on the `screen` object
+- If there is a match, meaning that it was able to find a matching node for the query, it will return the element
+  - Otherwise, it will throw an error and immediately cause the test to fail.
+- Examples
+  - `.getByText()` extracts a DOM element with text that matches a specified string
+  - `.getByRole()` extracts a DOM note by its role type
+  - `.getAllByText()` returns an array
+- They can be tested using Jest assertions, some of which are extensions provided by the `testing-library/jest-dom` library, like `expect.toBeChecked()`
+  - [jest-dom docs](https://github.com/testing-library/jest-dom)
+  - Import into testing file: `import '@testing-library/jest-dom';`
+
+```javascript
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
+const Button = () => {
+  return (
+    <button type="submit" disabled>
+      Submit
+    </button>
+  );
+};
+
+it('Rendered a "Submit" button', () => {
+  // Render the Button component
+  render(<Button />);
+  // Extract the <button>Submit</button> node
+  const button = screen.getByText('Submit');
+});
+
+it('extracts the button DOM node', () => {
+  // Render the Button component
+  render(<Button />);
+  // Extract the <button>Submit</button> node
+  const button = screen.getByRole('button');
+});
+
+it('shows the button as disabled', () => {
+  // render Button component
+  render(<Button />);
+  // Extract <button>Submit</button> Node
+  const button = screen.getByRole('button');
+  // Assert button is disabled
+  expect(button).toBeDisabled();
+});
+```
+
+#### .queryByX query methods
+
+- `.queryByX` methods return `null` if they don't find a DOM node
+  - Useful when asserting that an element is NOT present in the DOM
+
+The below examples test a simple component that renders a header with the text 'Hello World!' and then changes the text to 'Goodbye!' 500ms after the user clicks a button.
+
+```javascript
+import { useState } from 'react';
+
+const App = () => {
+  const [text, setText] = useState('Hello World!');
+
+  // Changes header text after interval of 500ms
+  const handleClick = () => {
+    setTimeout(() => {
+      setText('Goodbye!');
+    }, 500);
+  };
+
+  return (
+    <div>
+      <h1>{text}</h1>
+      <button onClick={handleClick}>click me</button>
+    </div>
+  );
+};
+
+export default App;
+```
+
+Example test:
+
+```javascript
+import App from './components/App';
+import { render, screen } from '@testing-library/react';
+
+it('Header should not show Goodbye yet', () => {
+  // Render App
+  render(<App />);
+  // Attempt to extract the header element
+  const header = screen.queryByText('Goodbye!');
+  // Assert null as we have not clicked the button
+  expect(header).toBeNull();
+});
+```
+
+#### .findByX query methods
+
+- Use `.findByX` methods to query for aynchronous elements which will eventualy appear in the DOM
+- They return a Promise, which resolves when the queried element renders in the DOM
+- The callback function that carries out the unit test must be defined as `async` and the `screen.findByX` method must be preceeded by `await`
+
+Example test for a header that will display the text `'Goodbye'` after the button is clicked, where the header has a 500ms delay.
+
+```javascript
+it('should show text content as Goodbye', async () => {
+  // Render App
+  render(<App />);
+  // Extract button node
+  const button = screen.getByRole('button');
+  // click button
+  userEvent.click(button);
+  // Wait for the text 'Goodbye!' to appear
+  const header = await screen.findByText('Goodbye!');
+  // Assert header to exist in the DOM
+  expect(header).toBeInTheDocument();
+});
+```
+
+#### .waitFor() method
+
+- Useful for testing components that _disappear_ asynchronously.
+- Takes a callback function as an argumentw here we can make asynchronous function calls, perform queries, and/or run assertions
+- needs to be prefaced with `await`
+- `import { waitFor } from '@testing-library/react';`
+- example structure:
+
+  ```javascript
+  await waitFor(() => {
+    expect(someAsyncMethod).toHaveBeenCalled();
+    const someAsyncNode = screen.getByText('hello world');
+    expect(someAsyncNode).toBeInTheDocument();
+  });
+  ```
+
+For example, to test a component where the header is removed after 250ms when the button "Remove Header" is clicked;
+
+```javascript
+// In header.js:
+export const Header = () => {
+  const handleClick = () => {
+    setTimeout(() => {
+      document.querySelector('h1').remove();
+    }, 250);
+  };
+  return (
+    <div>
+      <h1>Hey Everybody</h1>
+      <button onClick={handleClick}>Remove Header</button>
+    </div>
+  );
+};
+```
+
+```javascript
+import { waitFor, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
+import { Header } from './heaader.js';
+
+it('should remove header display', async () => {
+  // Render Header
+  render(<Header />);
+  // Extract button node
+  const button = screen.getByRole('button');
+  // click button
+  userEvent.click(button);
+
+  // Wait for the element to be removed asynchronously
+  await waitFor(() => {
+    const header = screen.queryByText('Hey Everybody');
+    expect(header).toBeNull();
+  });
+});
+```
+
+### Mimicking User Interactions
+
+- `@testing-library/user-event` exports a single object `userEvent`
+- import: `import userEvent from '@testing-library/user-event';`
+- Contains many built-in methods that allow us to mimic user interactions following this syntax pattern:
+
+  ```javascript
+  userEvent.interactionType(nodeToInteractWith);
+  ```
+
+- `userEvent.type()` for example accepts a DOM note to interact with, and a string to type into that node.
+- `userEvent.click()` simulates clicks
+- `userEvent.hover()` simulates hovering
+- See the [docs](https://testing-library.com/docs/user-event/intro/) for more methods
+
+Example simulating a user filling in a text box:
+
+```javascript
+const GreetingForm = () => {
+  return (
+    <form>
+      <label htmlFor="greeting">Greeting:</label>
+      <input type="text" id="greeting" />
+      <input type="submit" value="Submit" />
+    </form>
+  );
+};
+
+it('should show text content as Hey Mack!', () => {
+  // Render the component to test
+  render(<GreetingForm />);
+  // Extract the textbox component
+  const textbox = screen.getByRole('input');
+  // Simulate typing 'Hey Mack!'
+  userEvent.type(textbox, 'Hey Mack!');
+  // Assert textbox has text content 'Hey Mack!'
+  expect(textbox).toHaveValue('Hey Mack!');
+});
+```
+
+### Testing for Accessibility
+
+- Write “queries that reflect the experience of visual/mouse users as well as those that use assistive technology.”
+- Usually, this means using the same text that the user would see, rather than the implementation details like class names or IDs.
+- If a test can find and interact with your elements by their text, it's more likely that a user who uses assistive technology can as well.
+- Sticking to querying wtih `byRole` queries which queries any elements within the [accessibility tree](https://developer.mozilla.org/en-US/docs/Glossary/Accessibility_tree)
+- Example, if we tried to use `getByRole` to test an input form like this `<input id="search" value="" />`, it would not be able to query for this element, which exposes a component that is inaccessible
+
+  - To fix it, the element would need a `type` (which provides a [role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles)) and a `label` with an `htmlFor` attribute which provides an [accessible name](https://www.tpgi.com/what-is-an-accessible-name/) for an element
+
+  ```javascript
+  <label htmlFor="search">
+    <input type="search" id="search" value="" />
+  </label>
+  ```
+
+  - and the query can be `screen.getByRole('searchbox', {name: /search/i})`
