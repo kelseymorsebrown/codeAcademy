@@ -13,6 +13,8 @@ import { default as TimerApp } from '../lessons/timer-effect-hook/App';
 import { default as HighScoresApp } from '../lessons/high-score-styles/App';
 import { default as SchoolAdminFormApp } from '../lessons/school-admin-form/App';
 import { default as FoodOrderFormApp } from '../lessons/food-order-form/App';
+import { default as CheckoutFormApp } from '../lessons/checkout-form/App';
+import { default as CopyCatApp } from '../lessons/copy-cat-tom-testing/containers/CopyCatContainer';
 
 const menuItemsList = [
   {
@@ -100,6 +102,18 @@ const menuItemsList = [
     name: 'Food Order Form',
     route: '/foodOrderForm',
     component: <FoodOrderFormApp />,
+  },
+
+  // test practice
+  {
+    name: 'Checkout Form',
+    route: '/checkoutForm',
+    component: <CheckoutFormApp />,
+  },
+  {
+    name: 'Copy Cat',
+    route: '/copyCat',
+    component: <CopyCatApp />,
   },
 ];
 
