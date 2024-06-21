@@ -1,4 +1,4 @@
-# HTTP Requests Notes
+# HTTP Requests & Servers Notes
 
 ## Glossary
 
@@ -297,7 +297,205 @@ Implicit Grant Flow:
 - Access token is used by the application to make additional requests to the service, but is not sent to the server side of the requesting applicaiotn
 - Allows applications to use OAuth APIs without fear of potentially exposing long-term access to a user or application's information
 
+## HTTP
+
+### Structure
+
+#### Requests
+
+- **Method:** a verb (such as `GET` and `POST`) or noun (such as `OPTIONS` and `HEAD`) that informs the server of the intent of the request. Used in accurately routing and processing reuqests.
+- **Path:** the path of the resource relative to the root URL
+- **HTTP Protocol version:** the version of the HTTP protocol (i.e. HTTP/1.1, HTTP/2, and HTTP/3)
+- **Headers:** Optional. Used to convey additional information that may be important in processing a request by the server. There are some [standard headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers) that can be used, but there can also be application specific custom headers.
+- **Body:** THe data required to be sent to the server to process the request. Not used for all request types. Most common with `POST` `PUT` and `PATCH`
+
+#### Responses
+
+- **HTTP Protocol Version:** The version of the HTTP protocol
+- **Status Code:** If the request was successful and, if not, why it wasn’t successful.
+- **Status Message:** A short description of the corresponding status code.
+- **Headers:** Similar to those request headers
+- **Body:** Optional. Contains data corresponding to the fetched resource only when necessary to fulfill the request.
+
+### Transport Protocols
+
+**TCP:** Transmission Control Protocol
+
+- Most common transport protocol
+- Allows two hosts to connect and exchange data streams
+- Delivers data packets in the same order as they were sent, ensuring that packets are delivered reliably and free from errors
+- Incredibly stable way to move data from one location to another
+- Best used for the reliable transport of information that doesn't really care about transmission time
+
+**UDP:** User Datagram Protocol
+
+- Uses a connectionless communcation model, requiring no "handshaking"
+- Potential unreliability in the delivery of messages
+- Has no mechanism by which to guarantee delivery or ordering of messages
+- Lacks meaningful security to protect data while in transit, so encryption protocols are commonly used in conjunction with UDP
+- Used in some applications where transmission speed and efficiency is prioritized over security and reliability
+- Really shines when information needs to get somewhere very quickly, for example: video streaming
+- [UDP](https://developer.mozilla.org/en-US/docs/Glossary/UDP)
+
+**TLS:** Transport Layer Security
+
+- Widely adopted security protocol designed to facilitate secure data transmission via encryption
+- Evolved out of [SSL](https://www.cloudflare.com/learning/ssl/what-is-ssl/) (Secure Sockets Layer) which has since been deprecated in favor of TLS
+- Using TLS with HTTP will allow you to use HTTPS (Hypertext Transfer Protocol Secure)
+- [TLS](https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/)
+
+### HTTP Protocols
+
+**HTTP/1.1:**
+
+- One of the first HTTP protocol versions
+- Sends messages in the form of text
+- Commonly used over TCP
+- Slowest of the HTTP versions re: data transmission
+- Requires multiple connections to be made between two communicating entities
+
+**HTTP/2:**
+
+- Designed to reduce web page load latency
+- Encapsulates all messages in binary rather than plain text
+- Allows a single connection to be made between two communicating entities rather than multiple
+- Uses TCP
+
+**HTTP/3:**
+
+- One of the important differences between 2 & 3 is how the protocol deals with lost packets
+- Leverages a transport protocol called [QUIC](https://en.wikipedia.org/wiki/QUIC) which applies specific controls over UDP
+- Currently an [Internet Draft](https://en.wikipedia.org/wiki/Internet_Draft)
+
+### URLs
+
+![URL anatomy](https://static-assets.codecademy.com/Courses/Learn-Node/http/url-dark.png)
+
+1. **Protocol:** denotes what protocol is being used for the resource. ex: http or https
+2. **Domain:** unique reference that identifies a website on the internet
+3. **Path:** a file or directory on the web server. Often contain path parameters that APIs can process as a way to provide additional data when processing. Ex: to request a resource for a user with ID number `15`, you can add the user's ID to the URL like this: `/users/15`
+4. **Query:** Appear at the end of a URL, prefixed by a `?`. Contain key/value pairs, seperated by a `&`, which each key being assigned to its value with `=`. Often used in conjunction with `GET` requestrs to pass filter parameters in order to provide specificity for the requested resource.
+
+### Routing
+
+**Routing:** The process of handling requests in a specific ways based on the information provided with the request.
+
+Since each HTTP request contains a `method` it's a great way to discern different classes of requests based on the action the request wants the server to carry out.
+
+```javascript
+const server = http.createServer((req, res) => {
+  const { method } = req;
+
+  switch (method) {
+    case 'GET':
+      return handleGetRequest(req, res);
+    case 'POST':
+      return handlePostRequest(req, res);
+    case 'DELETE':
+      return handleDeleteRequest(req, res);
+    case 'PUT':
+      return handlePutRequest(req, res);
+    default:
+      throw new Error(`Unsupported request method: ${method}`);
+  }
+});
+```
+
+`pathname` allows the server to understand what resource is being targeted. For example: you can set up a function to check if `pathname` matches a known resource, and if so, fetch and dispatch the resource data from the server as a successful response. Otherwise, set the `.statusCode` to `404` and dispatch the corresponding error message.
+
+This pattern can be extrapolated to any number of conditional resource matches.
+
+```javascript
+function handleGetRequest(req, res) {
+  const { pathname } = new URL(req.url);
+  let data = {};
+
+  if (pathname === '/projects') {
+    data = await getProjects();
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    return res.end(JSON.stringify(data));
+  }
+
+  res.statusCode = 404;
+  return res.end('Requested resource does not exist');
+
+}
+```
+
+### Status Codes
+
+Once a request is processed, a response must be returned to the client to inform it of what happened.
+
+[HTTP response status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
+- Responsible for indicating whether a specific request has been successfully completed
+- Each code conveys info about waht happened during the processing of the request to help the client decide how to handle the response if further action is necessary
+- Codes are paried with short text descriptions to help humans understand the meaning of the code.
+- Response status codes grouped into five classes:
+  - Informational: Range from 100 to 199.
+  - Successful: Range from 200 to 299.
+  - Redirects: Range from 300 to 399.
+  - Client Errors: Range from 400 to 499.
+  - Server Errors: Range from 500 to 599.
+
+### Databases
+
+Databases are remote resources to which the server must make a request. In this case, the server functions as the client, sending the HTTP request to the database server.
+
+Databases usually have their own Software Development Kits (SKDs) and Object-Relational Mapping (ORMs) that can be used to connect to them easily.
+
+![data web flow diagram](https://static-assets.codecademy.com/Courses/Learn-Node/http/data-web-flow.png)
+
+A single server often does not represent the final destination in processing a request from a client.
+
+Instead, what usually happens is:
+
+- A client sends a request to the server
+- The server processes the request partially, generating a separate HTTP request from the server to the database
+- The server waits for the database's response and relays that information as a response back to the original client
+
+Servers being able to make HTTP requests to other serverices opens up possibilities for different back-end architecure designs.
+
+For example, [microservice archictecures](https://en.wikipedia.org/wiki/Microservices) divide needs into seperate lightweight services that communicate bvia HTTP over a network allowing a single application to be comprised of dozens of microservcies, possibly written in different programming langauges, that work together by communicating over HTTP.
+
+![back end architecture example](https://static-assets.codecademy.com/Courses/Learn-Node/http/microservices.png)
+
+## REST
+
+REST (REpresentational State Transfer): an architectural style for providing standards between computer systems on the web, making it easier for systems to communicate with each other.
+
+REST-compliant systems (aka RESTful systems) are stateless and separate the concerns of client and server.
+
+- Code on the client side can be changed at any time without affecting the operation of the server, and vice versa
+- As long as each side knows what format of messages to send to the other, they can be kept modular and separate
+- Stateless means the server doesn't know anything about the state the client is in and vice versa
+  - enforced through the use of resources (any object, document, or thing that you may need to store or send to other services) rather than commands
+
+### Requests
+
+REST requires that a client make a request to the server in order to retrieve or modify data on the server. A request generally consists of:
+
+- an [HTTP verb](https://www.codecademy.com/articles/what-is-crud), which defines what kind of operation to perform
+- a header, which allows the client to pass along information about the request
+- a path to a resource
+- an optional message body containing data
+
+In the header, the client sends the type of content that it is able to recieve from the server in the **Accept** field. This ensures the server does not send data that cannot be understood or processed by the client. Options for types of content are [MIME Types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) and consist of a type and subtype (separated by a slash). Ex: a text file with html would be `text/html`.
+
+Other types and commonly used subtypes:
+
+- image — image/png, image/jpeg, image/gif
+- audio — audio/wav, audio/mpeg
+- video — video/mp4, video/ogg
+- application — application/json, application/pdf, application/xml, application/octet-stream
+
+### Responses
+
+If the server is sending a data payload to the client, it must include the content-type in the header of the response. Just like the accept field in the request header, these are MME types, and should match one of the options that the client specified in the Accept field of the request.
+
 ## Resources
 
 - [HTTP request methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
 - [API](https://www.codecademy.com/resources/docs/general/api)
+- [Setting up a Server with HTTP](https://www.codecademy.com/learn/learn-node-js/modules/setting-up-a-server-with-http/cheatsheet)
