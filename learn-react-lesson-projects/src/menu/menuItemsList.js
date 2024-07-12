@@ -13,8 +13,8 @@ import { default as TimerApp } from '../lessons/timer-effect-hook/App';
 import { default as HighScoresApp } from '../lessons/high-score-styles/App';
 import { default as SchoolAdminFormApp } from '../lessons/school-admin-form/App';
 import { default as FoodOrderFormApp } from '../lessons/food-order-form/App';
-import { default as CheckoutFormApp } from '../lessons/checkout-form/App';
-import { default as CopyCatApp } from '../lessons/copy-cat-tom-testing/containers/CopyCatContainer';
+import { default as CheckoutFormApp } from '../lessons/checkout-form-testing/App';
+import { CopyCatContainer as CopyCatApp } from '../lessons/copy-cat-tom-testing/containers/CopyCatContainer';
 
 const menuItemsList = [
   {

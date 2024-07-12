@@ -1,0 +1,10 @@
+apples ✓
+pears ✓
+royal jelly ✗ (Out of stock)
+bread ✓
+milk ✗ (Out of stock)
+tofu ✓
+beans ✓
+flan ✓
+pork ✗ (Out of stock)
+tamarind ✓
