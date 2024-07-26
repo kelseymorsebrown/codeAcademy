@@ -41,15 +41,12 @@ body {
   cursor: pointer;
 }
 
-.dropdownContent div {
+.menuItem {
+  font-size: 0.9em;
   float: none;
   color: black;
-  padding: 12px 16px;
+  padding: 0.5em;
   text-decoration: none;
   display: block;
   text-align: left;
 }
-
-/* .hover-element:hover {
-  background-color: #ddd;
-} */
