@@ -181,8 +181,8 @@ Creating a mock function and then replacing the real cuntion with the mocked one
 #### Creating a mocked function
 
 1. Create a directory labeled `__mocks__/` in the same directory as the module we want to mock.
-2. Inside that directory, create a file with teh same name as the module that will be mocked.
-3. Create am odule with the functionality that we want. Functions that we want to mock can be created using `jest.fn()` (see [jest docs](https://jestjs.io/docs/mock-function-api))
+2. Inside that directory, create a file with the same name as the module that will be mocked.
+3. Create a module with the functionality that we want. Functions that we want to mock can be created using `jest.fn()` (see [jest docs](https://jestjs.io/docs/mock-function-api))
 4. Export the module
 
 Example mock for a function called `apiRequest()` that is exported from fa file called `utils/api-request.js`:
