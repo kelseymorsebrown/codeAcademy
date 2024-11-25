@@ -373,3 +373,7 @@ Continuous deployment automates deploying a project to the production server aft
 - [Monitoring](https://www.codecademy.com/learn/introduction-to-dev-ops/modules/monitoring/cheatsheet)
 - [Resiliency](https://www.codecademy.com/learn/introduction-to-dev-ops/modules/resiliency/cheatsheet)
 - [CI/CD Pipelines](https://www.codecademy.com/learn/introduction-to-dev-ops/modules/ci-cd-cd-pipelines/cheatsheet)
+
+Docker
+
+- [The Beginner's Guide to Docker](https://medium.com/@JeffyJeff/the-beginners-guide-to-docker-fa4c4d3181e7)

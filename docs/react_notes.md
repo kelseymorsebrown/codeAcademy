@@ -866,3 +866,8 @@ Task List Tutorials/Examples
 - [MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning)
 - [geeks for geeks](https://www.geeksforgeeks.org/create-todo-app-using-reactjs/)
 - [pusher](https://pusher.com/tutorials/todo-app-react-hooks/#introduction)
+
+Helpful packages
+
+- [@simbathesailor/use-what-changed](https://github.com/simbathesailor/use-what-changed) helps you figure out which dependency array variable caused a given useEffect hook to fire
+  - see [this stackoverflow comment](https://stackoverflow.com/a/63837778/28151991)
