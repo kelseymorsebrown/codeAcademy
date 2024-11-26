@@ -206,6 +206,10 @@ Using the `new` and `create` actions (two of the [seven standard Rails actions](
 1. Start the Rails console by running `rails console`
 1. Retrieve all emails in the database by running the query `ModelName.all` (ex: `Signup.all` for the `Signup` model)
 
+### Reset database
+
+If something weird's happening, you can reset the database by running `bundle exec rake db:reset`
+
 ## Forms
 
 [](https://content.codecademy.com/projects/3/two-turns-post.svg)
@@ -286,3 +290,11 @@ def show
   @destination = Destination.find(params[:id])
 end
 ```
+
+Let's say you have a Review model & a Book model, and the Review migration create_table has a `t.references :book` column. If you want to look up all the Reviews for a given Book in your database in the rails console:
+
+```rails
+Review.find_by!(book_id: <id>)
+```
+
+Ex: `Review.find_by!(book_id: 1)`
