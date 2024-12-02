@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_27_200028) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_27_230727) do
+  create_table "actors", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "image"
+    t.string "bio"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "albums", force: :cascade do |t|
     t.string "cover"
     t.string "title"
@@ -38,6 +47,24 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_27_200028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tag_id"], name: "index_destinations_on_tag_id"
+  end
+
+  create_table "movies", force: :cascade do |t|
+    t.string "title"
+    t.string "image"
+    t.string "release_year"
+    t.string "plot"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.integer "movie_id"
+    t.integer "actor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actor_id"], name: "index_parts_on_actor_id"
+    t.index ["movie_id"], name: "index_parts_on_movie_id"
   end
 
   create_table "reviews", force: :cascade do |t|

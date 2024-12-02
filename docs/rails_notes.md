@@ -245,7 +245,13 @@ Templates can be used to loop through and display data from a database, for exam
   - You create `@messages` in the Messages controller's index action.
 - For each message, we use `<%= message.content %>` and `<%= message.created_at %>` to display its content and the time when it was created.
 
+### Layout file
+
+The layout file (`app/views/layouts/application.html.rb`) lets you build a base view that contains all the common elements of your site, such as CSS files, the header, and the footer. The `<%= yield %>` defines the portion of the layout that child templates can fill in.
+
 ## Associations
+
+### Has Many / Belongs To
 
 You can create multiple models that have associations. For example, if you have two models named `Tag` and `Destination`
 
@@ -282,6 +288,24 @@ Review.find_by!(book_id: <id>)
 ```
 
 Ex: `Review.find_by!(book_id: 1)`
+
+### Many to Many
+
+Many-to-many relationships are needed to model data where both models can have many of the other type. For example, a movie has many actors in the cast, but each actor also has many movies they've bene in.
+
+```ruby
+class Movie < ApplicationRecord
+  has_many :parts
+  has_many :actors, through: :parts
+end
+
+class Actor < ApplicationRecord
+  has_many :parts
+  has_many :movies, through: :parts
+end
+```
+
+The `has_many :through` association sets up a many-to-many relationship between multiple models.
 
 ## Resources
 
