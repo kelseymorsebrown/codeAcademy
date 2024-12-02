@@ -1,0 +1,26 @@
+<div class="albums-header">
+  <div class="container">
+    <img class="logo" src="https://static-assets.codecademy.com/Courses/learn-ruby-on-rails/BassMusic/logo.svg"/>
+  </div>
+</div>
+
+<div class="albums-main">
+  <div class="container">
+    <div class="row">
+      <% @albums.each do |album| %>
+        <div class="col-md-3">
+          <%= link_to(album) do %>
+            <div class="thumbnail">
+              <img src="<%= album.cover %>">
+              <div class="caption">
+                <h3 class="title"><%= album.title %></h3>
+                <p class="artist"><%= album.artist %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
