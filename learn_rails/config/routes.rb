@@ -39,4 +39,16 @@ Rails.application.routes.draw do
   get '/movies/:id', to: 'movies#show', as: :movie
   get '/actors', to: 'actors#index'
   get '/actors/:id', to: 'actors#show', as: :actor
+
+  # Newsstand
+  resources :articles
+  get '/newsstand', to: 'articles#index'
+  get '/newsstand/signup', to: 'users#new'
+  resources :users
+
+  get '/newsstand/login', to: 'sessions#new'
+  post '/newsstand/login', to: 'sessions#create'
+
+  delete 'newsstand/logout', to: 'sessions#destroy'
+
 end

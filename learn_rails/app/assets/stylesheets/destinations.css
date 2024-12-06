@@ -1,105 +1,101 @@
-html,
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-}
+.travelapp {
+  .header {
+    background-color: #00217f;
+    height: 140px;
+    text-align: center;
+  }
 
-.header {
-  background-color: #00217f;
-  height: 140px;
-  text-align: center;
-}
+  .header img {
+    margin: 8px 0 0 0;
+  }
 
-.header img {
-  margin: 8px 0 0 0;
-}
+  .header h1 {
+    color: #fff;
+    font-size: 24px;
+    margin: 0;
+  }
 
-.header h1 {
-  color: #fff;
-  font-size: 24px;
-  margin: 0;
-}
+  .destination {
+    margin: 80px 0;
+  }
 
-.destination {
-  margin: 80px 0;
-}
+  h2 a {
+    text-decoration: none;
+  }
 
-h2 a {
-  text-decoration: none;
-}
+  .container h2 {
+    color: #00217f;
+  }
 
-.container h2 {
-  color: #00217f;
-}
+  .card {
+    color: #fff;
+    display: block;
+    margin: 4px 0;
+  }
 
-.card {
-  color: #fff;
-  display: block;
-  margin: 4px 0;
-}
+  .destination h2,
+  .destination p {
+    padding: 0 20px 0;
+  }
 
-.destination h2,
-.destination p {
-  padding: 0 20px 0;
-}
+  .destination img {
+    width: 100%;
+  }
 
-.destination img {
-  width: 100%;
-}
+  .destination p {
+    color: #0f0f0f;
+    font-size: 14px;
+    font-weight: 300;
+  }
 
-.destination p {
-  color: #0f0f0f;
-  font-size: 14px;
-  font-weight: 300;
-}
+  .card a,
+  .destination a,
+  .destination .btn {
+    background-color: #00217f;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.5s;
+    padding: 6px 30px;
+    display: inline-block;
+    cursor: pointer;
+    margin: 8px 0 20px;
+  }
 
-.card a,
-.destination a,
-.destination .btn {
-  background-color: #00217f;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 300;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.5s;
-  padding: 6px 30px;
-  display: inline-block;
-  cursor: pointer;
-  margin: 8px 0 20px;
-}
+  .destination .btn {
+    width: 100px;
+  }
 
-.destination .btn {
-  width: 100px;
-}
+  .destination a:hover,
+  .destination .btn:hover {
+    background-color: #003ec9;
+    transition: background-color 0.5s;
+  }
 
-.destination a:hover,
-.destination .btn:hover {
-  background-color: #003ec9;
-  transition: background-color 0.5s;
-}
+  .destination form {
+    margin: 20px;
+  }
 
-.destination form {
-  margin: 20px;
-}
+  .destination form label {
+    width: 100%;
+  }
 
-.destination form label {
-  width: 100%;
-}
+  .destination form input {
+    border: 1px solid #d6d6d6;
+    font-family: 'Roboto', sans-serif;
+    margin: 10px 0;
+    padding: 20px;
+    width: calc(100% - 40px);
+  }
 
-.destination form input {
-  border: 1px solid #d6d6d6;
-  font-family: 'Roboto', sans-serif;
-  margin: 10px 0;
-  padding: 20px;
-  width: calc(100% - 40px);
-}
-
-.destination form input:focus {
-  border: 1px solid #003ec9;
-  font-size: 14px;
-  font-weight: 300;
-  box-shadow: 0;
-  outline: 0;
-  transition: border 0.5s;
+  .destination form input:focus {
+    border: 1px solid #003ec9;
+    font-size: 14px;
+    font-weight: 300;
+    box-shadow: 0;
+    outline: 0;
+    transition: border 0.5s;
+  }
 }

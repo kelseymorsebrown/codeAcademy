@@ -1,19 +1,21 @@
-<div class="header">
-  <div class="container">
-    <img src="https://content.codecademy.com/courses/learn-rails/img/logo-1tm.svg" width="80">
-    <h1>BokenjiKan</h1>
+<div class="travelapp">
+  <div class="header">
+    <div class="container">
+      <img src="https://content.codecademy.com/courses/learn-rails/img/logo-1tm.svg" width="80">
+      <h1>BokenjiKan</h1>
+    </div>
   </div>
+
+  <div class="destination">
+    <div class="container">
+      <%= image_tag @destination.image %>
+      
+      <%= form_for(@destination) do |f| %>
+        <%= f.text_field :name %>
+        <%= f.text_field :description %>
+        <%= f.submit "Update", class: "btn" %>
+      <% end %>
+
+    </div>
+  </div> 
 </div>
-
-<div class="destination">
-  <div class="container">
-    <%= image_tag @destination.image %>
-    
-    <%= form_for(@destination) do |f| %>
-      <%= f.text_field :name %>
-      <%= f.text_field :description %>
-      <%= f.submit "Update", class: "btn" %>
-    <% end %>
-
-  </div>
-</div> 

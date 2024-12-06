@@ -1,0 +1,35 @@
+<div class="newsstand">
+  <div class="header">
+    <div class="container">
+      <%= link_to("/newsstand") do %>
+        <h1><span class="dark">n</span>ewstand</h1>
+      <% end %>
+
+      <div class="nav">
+        <% if current_user %>
+          <ul>
+            <li><%= current_user.email %></li>
+            <li><%= button_to "Log out", newsstand_logout_path, method: "delete", class: 'btn btn-small' %></li>
+          </ul>
+        <% else %>
+          <ul>
+            <li><%= link_to "Login", '/newsstand/login' %></a></li>
+            <li><%= link_to "Signup", '/newsstand/signup' %></a></li>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="login">
+    <div class="container">
+
+      <%= form_for(:session, url: newsstand_login_path) do |f| %>
+        <%= f.email_field :email, :placeholder => "Email" %>
+        <%= f.password_field :password, :placeholder => "Password" %>
+        <%= f.submit "Login", class: "btn-submit" %>
+      <% end %>
+      
+    </div>
+  </div>
+</div>
