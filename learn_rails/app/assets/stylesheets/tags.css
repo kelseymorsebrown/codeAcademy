@@ -1,77 +1,79 @@
-.header {
-  background-color: #00217f;
-  height: 140px;
-  text-align: center;
-}
+.travelapp {
+  .header {
+    background-color: #00217f;
+    height: 140px;
+    text-align: center;
+  }
 
-.header img {
-  margin: 8px 0 0 0;
-}
+  .header img {
+    margin: 8px 0 0 0;
+  }
 
-.header h1 {
-  color: #fff;
-  font-size: 24px;
-  margin: 0;
-}
+  .header h1 {
+    color: #fff;
+    font-size: 24px;
+    margin: 0;
+  }
 
-.tags {
-  margin: 80px 0;
-}
+  .tags {
+    margin: 80px 0;
+  }
 
-h2 a {
-  text-decoration: none;
-}
+  h2 a {
+    text-decoration: none;
+  }
 
-.container h2 {
-  color: #00217f;
-}
+  .container h2 {
+    color: #00217f;
+  }
 
-.card {
-  color: #fff;
-  display: block;
-  margin: 4px 0;
-}
+  .card {
+    color: #fff;
+    display: block;
+    margin: 4px 0;
+  }
 
-.tags .card h2 {
-  color: #fff;
-  position: absolute;
-  left: 0;
-  right: 0;
-  text-align: center;
-  top: 25%;
-}
+  .tags .card h2 {
+    color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 25%;
+  }
 
-.tags img,
-.tag img {
-  display: block;
-  width: 100% \9;
-  max-width: 100%;
-  height: auto;
-}
+  .tags img,
+  .tag img {
+    display: block;
+    width: 100% \9;
+    max-width: 100%;
+    height: auto;
+  }
 
-.tag h2,
-.tag .card h2 {
-  padding: 0 20px 0;
-}
+  .tag h2,
+  .tag .card h2 {
+    padding: 0 20px 0;
+  }
 
-.tag .card p {
-  color: #0f0f0f;
-  font-size: 14px;
-  font-weight: 300;
-  -webkit-box-orient: vertical;
-  padding: 0 20px 20px;
-}
+  .tag .card p {
+    color: #0f0f0f;
+    font-size: 14px;
+    font-weight: 300;
+    -webkit-box-orient: vertical;
+    padding: 0 20px 20px;
+  }
 
-.card a {
-  background-color: #00217f;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 300;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.5s;
-  padding: 6px 30px;
-  display: inline-block;
-  cursor: pointer;
-  margin: 8px 0 20px;
+  .card a {
+    background-color: #00217f;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.5s;
+    padding: 6px 30px;
+    display: inline-block;
+    cursor: pointer;
+    margin: 8px 0 20px;
+  }
 }

@@ -245,6 +245,26 @@ Templates can be used to loop through and display data from a database, for exam
   - You create `@messages` in the Messages controller's index action.
 - For each message, we use `<%= message.content %>` and `<%= message.created_at %>` to display its content and the time when it was created.
 
+```ruby
+<%= form_for(@destination) do |f| %>
+  <%= f.text_field :name %>
+  <%= f.text_field :description %>
+  <%= f.submit "Update", class: "btn" %>
+<% end %>
+```
+
+```ruby
+<%= form_for(@signup) do |f| %>
+  <div class="field">
+    <%= f.label :signup %><br>
+    <%= f.text_field :email, :placeholder => "Email" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Join", :class => "btn" %>
+  </div>
+<% end %>
+```
+
 ### Layout file
 
 The layout file (`app/views/layouts/application.html.rb`) lets you build a base view that contains all the common elements of your site, such as CSS files, the header, and the footer. The `<%= yield %>` defines the portion of the layout that child templates can fill in.
@@ -306,6 +326,284 @@ end
 ```
 
 The `has_many :through` association sets up a many-to-many relationship between multiple models.
+
+## Authentication
+
+How authentication fits into the [request/response cycle](https://www.codecademy.com/articles/request-response-cycle-forms) when a user signs up for an app:
+
+1. User visits the signup page
+   a. Browser makes an HTTP GET req for the URL `/signup`
+   b. Rails router maps the url `/signup` to the Users controller's `new` action
+   c. The `new` action handles the request and passes it to the view
+   d. The view displays the signup form
+2. User fills in and submits the form
+   a. Browser sends form data via HTTP POST req to the app
+   b. Rails router maps req to Users controller's `create` action
+   c. `create` action saves data to the database, redirects to another page, and creates a new _session_
+
+A **session**:
+
+- is a connection b/t the user's computer & the server running the Rails app.
+- starts with the user logs in
+- ends when the user logs out
+
+How authentication fits into the request/response cycle when a user logs into an app:
+
+1. User visits the login page
+   a. Browser makes an HTTP GET req for the URL `/login`
+   b. Rails router maps the url `/login` to the Sessions controller's `new` action
+   c. The `new` action handles the request and passes it to the view
+   d. The view displays the login form
+2. User fills in and submits the form
+   a. Browser sends form data via HTTP POST req to the app
+   b. Rails router maps req to Sessions controller's `create` action
+   c. `create` action verifies the user exists in the database
+   d. If the user exists: `create` logs them in by creating a new _session_
+   e. Otherwise, reloads the login page
+
+### Signup
+
+Need 5 parts to add signup machinery to an app:
+
+1. a model
+2. a controller
+3. routes
+4. views
+5. logic for sessions
+
+Add the class method `has_secure_password` to the User model to add functionality to save passwords securely.
+
+It uses an algorithm called `bcrypt` so you'll need to make sure that gem is installed.
+
+```ruby
+class User < ApplicationRecord
+    has_secure_password
+end
+```
+
+In the `User` migration file, add `t.string :password_digest` in `create_table` to store the encrypted password
+
+The `has_secure_password` method uses the bcrypt algorithm to securely hash a user's password, which then gets saved in the `password_digest` column
+
+When a user logs in again, `has_secure_password` will collect the submitted password, hash it with bcrypt, and check if it matches the hash in the database.
+
+Add a `new` action to the User controller
+
+Add a route that maps requests for the URL `/signup` to the Users controller's `new` action (and add `resources :users`)
+
+Use `form_for` in the app/views/users/new.html.erb to create a table to collect user input
+
+```ruby
+<%= form_for(@user) do |f| %>
+  <%= f.text_field :first_name, :placeholder => "First Name" %>
+  <%= f.text_field :last_name, :placeholder => "Last Name" %>
+  <%= f.text_field :email, :placeholder => "Email" %>
+  <%= f.text_field :password, :placeholder => "Password" %>
+  <%= f.submit "Create an Account", :class => "btn-submit" %>
+<% end %>
+```
+
+In the Users controller add a private `user_params` method to save the form data to the database
+
+```ruby
+private
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :password)
+  end
+```
+
+Add a public `create` action to the Users controller to create a new session & re-direct the user after signing up
+
+```ruby
+def create
+  @user = User.new(user_params)
+  if @user.save
+    # create new session & store as key/value pair
+    session[:user_id] = @user.id
+    # redirect to root
+    redirect_to '/'
+  else
+    redirect_to '/signup'
+  end
+end
+```
+
+### Login
+
+Need 5 parts to add login machinery to an app:
+
+1. a model
+2. a controller
+3. routes
+4. views
+5. logic for sessions
+
+Create a Sessions controller & add `new` & `create` actions to it
+
+```ruby
+def new
+end
+
+def create
+  @user = User.find_by_email(params[:session][:email])
+  if @user && @user.authenticate(params[:session][:password])
+    session[:user_id] = @user.id
+    redirect_to '/', allow_other_host: true
+  else
+    redirect_to '/login', allow_other_host: true
+  end
+end
+```
+
+Add a route that maps requests for the URL `/login` to the Sessions controller's `new` action
+
+Add a route that maps post requests to the URL `/login` to the SEssions controller's `create` action
+
+```ruby
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+```
+
+In the app/views/sessions/new.html.erb to create a table to collect user input.
+
+Use to the name of the resource and corresponding URL.
+
+- In the signup form, we used `form_for(@user) do |f|` since we had a `User` model.
+- For the login form, we don't have a `Session` model, so we use `form_for(:session, url: login_path)` to pass in the name of the resource & corresponding URL as parameters
+
+```ruby
+<%= form_for(:session, url: login_path) do |f| %>
+  <%= f.email_field :email, :placeholder => "Email" %>
+  <%= f.password_field :password, :placeholder => "Password" %>
+  <%= f.submit "Login", class: "btn-submit" %>
+<% end %>
+```
+
+### Logout
+
+Add a `destroy` action to the Sessions controller that sets the session hash to nil and redirects to the root path
+
+```ruby
+def destroy
+  session[:user_id] = nil
+  redirect_to '/'
+end
+```
+
+Add a route that maps the URL `/logout` to the Sessions controller's `destroy` action
+
+```ruby
+delete '/logout', to: 'sessions#destroy'
+```
+
+### Verify login
+
+To check if a user is logged in before sending redirect requests to root:
+
+- add a `current_user` method to the Applicaiton controller that:
+  - checks if there's a user in the database with a given session id
+  - if there is, it means the user is logged in. Set `@current_user` to that user
+  - otherwise, the user is logged out. `@current_user` should remain `nil`
+  - [||= syntax](https://stackoverflow.com/questions/995593/what-does-or-equals-mean-in-ruby)
+- add a `require_user` method to the Applicaiton controller
+  - use `current_user` method to redirect logged out users to the login page
+  - [unless keyword](https://signalvnoise.com/posts/2699-making-sense-with-rubys-unless)
+
+```ruby
+# makes current_user method available in the views
+helper_method :current_user
+
+def current_user
+  @current_user ||= User.find(session[:user_id]) if session[:user_id]
+end
+
+def require_user
+  redirect_to '/login' unless current_user
+end
+```
+
+By default, all methods defined in Application Controller are already available in the controllers.
+
+However to make a methods defined Application Controller available in the views, you need to add a line like this:
+
+```ruby
+helper_method :current_user
+```
+
+Then, in the Controller class with routes to content you only want logged in users to see, use the `before_action` command in the first line inside the class.
+
+For example, if you only wanted the `:index` and `:show` actions to run for logged in users >
+
+```ruby
+before_action :require_user, only: [:index, :show]
+```
+
+Example using `current_user` to update nav items depending on if a user is logged in or not:
+
+```ruby
+<div class="nav">
+  <% if current_user %>
+    <ul>
+      <li><%= current_user.email %></li>
+      <li><%= button_to "Log out", logout_path, method: "delete", class: 'btn btn-small' %></li>
+    </ul>
+  <% else %>
+    <ul>
+      <li><%= link_to "Login", 'login' %></a></li>
+      <li><%= link_to "Signup", 'signup' %></a></li>
+    </ul>
+  <% end %>
+</div>
+```
+
+### Authenticate in rails console
+
+Enter the rails console & create a new user
+
+```ruby
+> User.create(first_name: 'Edna', last_name: 'Mode', email: 'edna@example.com', password: 'incredibles')
+```
+
+Find this user and save it to a variable named `myuser`
+
+```ruby
+> myuser = User.find_by(email: 'edna@example.com')
+```
+
+Print our the `myuser` object's `email` attribute to confirm the user object has saved the email, `edna@example.com`
+
+```ruby
+> myuser.email
+=> "edna@example.com"
+```
+
+Print out the `myuser` object's `password_digest` attribute. This is the encrypted version of the pw you used to create the user object. It's constructed using the `bcrypt` gem installed earlier.
+
+```ruby
+> myuser.password_digest
+=> "$2a$12$YgL48L68ne7Udg7vnXxyJeN31QqQ3cKP3n4R7cFsBSkQSy9pn93LW"
+```
+
+The `has_secure_password` added to the `User` model comes with a method named `authenticate`.
+
+When a user tries to log in again, Rails will use the `authenticate` method to determine whether the password entered is valid by first hashing it and then comparing it to the `password_digest` field in the database.
+
+```ruby
+> myuser.authenticate('wrong_pwd')
+=> false
+> myuser.authenticate('incredibles')
+=>
+#<User:0x0000558229549df8
+ id: 1,
+ first_name: "Edna",
+ last_name: "Mode",
+ email: "edna@example.com",
+ password_digest: "[FILTERED]",
+ created_at:
+  Fri, 06 Dec 2024 00:32:15.302587000 UTC +00:00,
+ updated_at:
+  Fri, 06 Dec 2024 00:32:15.302587000 UTC +00:00>
+```
 
 ## Resources
 
