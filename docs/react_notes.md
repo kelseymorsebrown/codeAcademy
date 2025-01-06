@@ -849,6 +849,13 @@ export default PhoneNumberForm;
   - [Routing](https://www.codecademy.com/resources/docs/react/routing)
   - [State](https://www.codecademy.com/resources/docs/react/state)
   - [Virtual DOM](https://www.codecademy.com/resources/docs/react/virtual-dom)
+- [Deploying a React App\* to GitHub Pages](https://github.com/gitname/react-gh-pages)
+- [How to use React contedt](https://www.freecodecamp.org/news/how-to-use-react-context/)
+- Bootstrap docs
+  - [Adding Bootstrap](https://create-react-app.dev/docs/adding-bootstrap/)
+  - [Introduction](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+  - [Layout: containers](https://getbootstrap.com/docs/5.3/layout/containers/)
+  - [Layout: grid](https://getbootstrap.com/docs/5.3/layout/grid/)
 
 CodeAcademy LearnReact Cheatsheets:
 

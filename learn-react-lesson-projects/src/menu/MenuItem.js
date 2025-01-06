@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import useHover from './useHover';
+import styles from '../App.module.css';
 
 const MenuItem = ({ color, index, name, route, pushToRoute }) => {
   const onClickHandler = ({ target }) => {
@@ -9,15 +9,24 @@ const MenuItem = ({ color, index, name, route, pushToRoute }) => {
 
   const elementRef = useRef();
 
-  const isHovered = useHover(elementRef);
+  function MouseOver(event) {
+    event.target.style.background = '#ddd';
+  }
+  function MouseOut(event) {
+    event.target.style.background = color;
+  }
 
   return (
     <div
       ref={elementRef}
-      className="hover-element"
+      className={styles.menuItem}
       onClick={onClickHandler}
+      style={{
+        backgroundColor: color,
+      }}
+      onMouseEnter={MouseOver}
+      onMouseLeave={MouseOut}
       route={route}
-      style={{ backgroundColor: isHovered ? `#ddd` : color }}
       id={index.toString().length === 1 ? `0${index}` : `${index}`}
     >
       {name}
@@ -26,3 +35,5 @@ const MenuItem = ({ color, index, name, route, pushToRoute }) => {
 };
 
 export default MenuItem;
+
+//
